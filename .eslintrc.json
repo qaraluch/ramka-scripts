@@ -1,0 +1,20 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es6": true,
+        "jest/globals": true,
+        "node": true
+    },
+    "extends": ["eslint:recommended", "plugin:prettier/recommended", "plugin:jest/recommended"],
+    "parserOptions": {
+        "ecmaVersion": 2019
+    },
+    "plugins": ["eslint-plugin-jest"],
+    "rules": {
+	    "no-console": "warn",
+	    "no-unused-vars": "warn",
+	    "quotes": ["warn", "double"],
+	    "semi": ["error", "always"]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "ramka-back",
+  "version": "0.0.1",
+  "description": "Back-end for ramka app.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Use package-scripts (nps) instead\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "\"prv\""
+  },
+  "author": "qaraluch",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^6.0.1",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-jest": "^22.7.2",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "jest": "^24.8.0",
+    "nps": "^5.9.5",
+    "nps-utils": "^1.7.0",
+    "prettier": "1.18.2"
+  }
+}
