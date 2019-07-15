@@ -24,5 +24,8 @@
     "nps": "^5.9.5",
     "nps-utils": "^1.7.0",
     "prettier": "1.18.2"
+  },
+  "dependencies": {
+    "qm-walk": "^2.2.5"
   }
 }

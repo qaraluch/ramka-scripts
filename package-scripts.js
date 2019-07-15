@@ -22,6 +22,12 @@ module.exports = {
         description: "jest test",
         script: "./node_modules/.bin/jest"
       }
+    },
+    listCsFiles: {
+      default: {
+        description: "list all files in CS import directory",
+        script: "node ./scripts/listCsFiles.js"
+      }
     }
   },
   options: {
