@@ -8,7 +8,7 @@ async function writeFile(outputPath, data) {
     await fsWriteFile(outputPath, data);
   } catch (error) {
     throw new Error(
-      `writeFile.js - sth. went wrong with writing file: ${outputPath} on the disk.`
+      `writeFile.js - sth. went wrong with writing file: ${outputPath} on the disk. \n ${error}`
     );
   }
 }

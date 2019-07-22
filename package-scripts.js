@@ -21,6 +21,10 @@ module.exports = {
       default: {
         description: "jest test",
         script: "./node_modules/.bin/jest"
+      },
+      watch: {
+        description: "jest test with watch flag",
+        script: "./node_modules/.bin/jest --watch"
       }
     },
     listCsFiles: {
