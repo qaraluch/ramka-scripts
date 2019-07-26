@@ -28,11 +28,15 @@ async function readExtraInfo(filesInfo) {
 }
 
 async function performReadInfo(itm) {
-  const { importedPath: path } = itm;
-  const hash = await hashFile(path);
-  const exif = await getExif(path);
-  const newItm = { hash, exif, ...itm };
-  return newItm;
+  try {
+    const { importedPath: path } = itm;
+    const hash = await hashFile(path);
+    const exif = await getExif(path);
+    const newItm = { hash, exif, ...itm };
+    return newItm;
+  } catch (error) {
+    throw new Error(`readFilesInfos.js - Sth. went wrong: ...\n ${error}`);
+  }
 }
 
 module.exports = {

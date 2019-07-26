@@ -1,7 +1,6 @@
 const exiftool = require("node-exiftool");
 const exiftoolBin = require("dist-exiftool");
 
-//TODO: add to tiljs
 async function getExif(path) {
   const ep = new exiftool.ExiftoolProcess(exiftoolBin);
   await ep.open();

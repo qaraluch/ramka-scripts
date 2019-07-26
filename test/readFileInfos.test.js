@@ -11,7 +11,7 @@ jest.mock("../src/walker", () => {
 //Path of the exitsting file is used for read hash and exif metadata so
 //i don't need to mocki it too.
 
-describe("readFilesInfos()", () => {
+describe.skip("readFilesInfos()", () => {
   it("should return info read for imported media file", async () => {
     //TODO: add integration test...
     //For now only for get proper formated data object.

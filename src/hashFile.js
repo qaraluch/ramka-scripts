@@ -1,6 +1,5 @@
 const md5File = require("md5-file/promise");
 
-//TODO: cp to tiljs
 async function hashFile(path) {
   try {
     const hash = await md5File(path);
