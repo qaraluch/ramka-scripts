@@ -26,7 +26,9 @@
     "prettier": "1.18.2"
   },
   "dependencies": {
+    "cp-file": "7.0.0",
     "dist-exiftool": "^10.53.0",
+    "jimp": "0.6.4",
     "md5-file": "^4.0.0",
     "node-exiftool": "^2.3.0",
     "qm-walk": "^2.2.5",
