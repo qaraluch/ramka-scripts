@@ -21,7 +21,6 @@ async function performCopyMedia(itm) {
   try {
     await copyFile(source, destination);
     await cropSquareImage(source, destinationSquare);
-    return itm;
   } catch (error) {
     throw new Error(
       `fs.js copyMediaToRamka() - Sth. went wrong: ...\n ${error}`
