@@ -4,7 +4,7 @@ const {
   copyMediaToRamka,
   calculateOutputPaths
 } = require("./fs");
-const { putNewMediaToDB, calculateDBRecord } = require("./db");
+const { putNewMediaToDB, prepareDBRecord } = require("./db");
 
 const dirCsImportDir = "/mnt/g/gallery/aadisk-gallery/galeria-saved";
 
@@ -14,7 +14,7 @@ async function importMedia() {
     const filesList_extraInfo = await readExtraMetadataInfo(filesList);
     const filesList_outputPaths = calculateOutputPaths(filesList_extraInfo);
     await copyMediaToRamka(filesList_outputPaths);
-    const mediaListForDB = calculateDBRecord(filesList_outputPaths);
+    const mediaListForDB = prepareDBRecord(filesList_outputPaths);
     const confirmations = await putNewMediaToDB(mediaListForDB);
     const result = confirmations;
     return result;

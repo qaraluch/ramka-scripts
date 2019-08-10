@@ -8,6 +8,7 @@ const { parseCSFileName } = require("./utils");
 const path = require("path");
 
 const importDirHome = "/mnt/h/ramka/data/images/";
+
 async function walkInputDir(inputPath) {
   const filesInfo = await walkDir(inputPath);
   const filesInfoFileMetadata = creatFilesList(filesInfo);
@@ -75,9 +76,6 @@ function calculateOutputMainFileName(hash, extension) {
   return { outputFileName, outputFileNameSquare };
 }
 
-module.exports = {
-  calculateOutputPaths
-};
 async function copyMediaToRamka(filesList) {
   const readInfosThrottled = throttleIt(performCopyMedia, 10);
   const results = await readInfosThrottled(filesList);

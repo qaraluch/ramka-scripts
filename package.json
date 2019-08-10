@@ -31,6 +31,7 @@
     "jimp": "0.6.4",
     "md5-file": "^4.0.0",
     "node-exiftool": "^2.3.0",
+    "pouchdb": "^7.1.1",
     "qm-walk": "^2.2.5",
     "throat": "^5.0.0"
   }

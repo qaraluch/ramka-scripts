@@ -113,7 +113,7 @@ const gif = {
 };
 
 function getCSDifferentFiles() {
-  return Promise.resolve([jpg, gif, png]);
+  return Promise.resolve([png, gif, jpg]);
 }
 
 module.exports = {

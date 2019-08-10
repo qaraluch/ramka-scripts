@@ -1,4 +1,4 @@
-let PouchDB = require("pouchdb");
+const PouchDB = require("pouchdb");
 const path = require("path");
 
 //TODO: add to tiljs
@@ -21,7 +21,7 @@ async function putNewMediaToDB(mediaList) {
   }
 }
 
-function calculateDBRecord(filesList) {
+function prepareDBRecord(filesList) {
   const DBrecords = filesList.map(DBrecordsMapper);
   return DBrecords;
 }
@@ -29,6 +29,7 @@ function calculateDBRecord(filesList) {
 function DBrecordsMapper(itm) {
   const {
     hash,
+    fileMetadata,
     exif,
     importedPath,
     outputDir,
@@ -37,6 +38,8 @@ function DBrecordsMapper(itm) {
   } = itm;
   const DBrecord = {
     _id: hash,
+    hash,
+    fileMetadata,
     exif: exif.data,
     importedPath,
     source: `${path.resolve(outputDir, outputFileName)}`,
@@ -47,6 +50,6 @@ function DBrecordsMapper(itm) {
 
 module.exports = {
   initDB,
-  calculateDBRecord,
+  prepareDBRecord,
   putNewMediaToDB
 };

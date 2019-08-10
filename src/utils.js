@@ -14,6 +14,14 @@ function parseCSFileName(baseName) {
   return resultObj;
 }
 
+function* generateId(initialValue = 0) {
+  let id = initialValue;
+  while (true) {
+    yield id++;
+  }
+}
+
 module.exports = {
-  parseCSFileName
+  parseCSFileName,
+  generateId
 };
