@@ -1,7 +1,7 @@
 const PouchDB = require("pouchdb");
 const path = require("path");
 
-//TODO: add to tiljs
+//TODO: add to tiljs when db operations will be stabile
 const nameDB = ".DB-ramka";
 
 function initDB(name) {
@@ -33,6 +33,7 @@ function DBrecordsMapper(itm) {
     exif,
     importedPath,
     outputDir,
+    outputYear,
     outputFileName,
     outputFileNameSquare
   } = itm;
@@ -42,8 +43,8 @@ function DBrecordsMapper(itm) {
     fileMetadata,
     exif: exif.data,
     importedPath,
-    source: `${path.resolve(outputDir, outputFileName)}`,
-    sourceSquare: `${path.resolve(outputDir, outputFileNameSquare)}`
+    source: `${path.join(outputDir, outputYear, outputFileName)}`,
+    sourceSquare: `${path.join(outputDir, outputYear, outputFileNameSquare)}`
   };
   return DBrecord;
 }

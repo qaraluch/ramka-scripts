@@ -9,7 +9,6 @@ jest.mock("../src/walker", () => {
   };
 });
 
-//TODO: add to tiljs
 jest.mock("../src/hashFile", () => {
   const { generateId } = require("../src/utils");
   let id = generateId();
@@ -20,7 +19,6 @@ jest.mock("../src/hashFile", () => {
   };
 });
 
-//TODO: add to tiljs
 jest.mock("../src/getExif", () => {
   const {
     getExifMockData_jpg,
@@ -51,7 +49,6 @@ jest.mock("../src/cropSquareImage", () => {
   };
 });
 
-//TODO: add to tiljs
 jest.mock("../src/db", () => ({
   ...jest.requireActual("../src/db"),
   putNewMediaToDB: jest.fn()
@@ -60,8 +57,10 @@ jest.mock("../src/db", () => ({
 const t_importPath =
   "/mnt/g/gallery/aadisk-gallery/galeria-saved/2019-05-19 13.29.28-0 - niedzica.jpg";
 const t_outputDir = "/mnt/h/ramka/data/images/2019";
-const t_outputPath = `${t_outputDir}/111fakehash2.jpg`;
+const t_dbSourceDir = "data/images/2019";
 const t_Id = "111fakehash2";
+const t_outputPath = `${t_outputDir}/${t_Id}.jpg`;
+const t_dbSourceImagePath = `${t_dbSourceDir}/${t_Id}.jpg`;
 
 it("should import new file to the system", async () => {
   await importMedia();
@@ -74,7 +73,6 @@ it("should import new file to the system", async () => {
     copyFileDestinationPath
   );
 
-  //TODO: add to tiljs
   // crop square file
   const cropSquareDestinationPath = t_outputPath;
   expect(copyFile).toHaveBeenLastCalledWith(
@@ -83,13 +81,12 @@ it("should import new file to the system", async () => {
   );
 
   // DB
-  //TODO: add to tiljs
   const expectedRecord = {
     _id: t_Id,
     hash: t_Id,
     exif: [expect.objectContaining({ SourceFile: t_importPath })],
     fileMetadata: expect.objectContaining({ isFile: true }),
-    source: t_outputPath
+    source: t_dbSourceImagePath
   };
   expect(putNewMediaToDB).toHaveBeenLastCalledWith(
     expect.arrayContaining([expect.objectContaining(expectedRecord)])

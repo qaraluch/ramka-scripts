@@ -7,7 +7,9 @@ const { cropSquareImage } = require("./cropSquareImage");
 const { parseCSFileName } = require("./utils");
 const path = require("path");
 
-const importDirHome = "/mnt/h/ramka/data/images/";
+//TODO: add to config.js
+const ramkaOutputHomeDir = "/mnt/h/ramka";
+const outputDir = "data/images";
 
 async function walkInputDir(inputPath) {
   const filesInfo = await walkDir(inputPath);
@@ -55,19 +57,16 @@ function outputPathsMapper(itm) {
     hash
   } = itm;
   const { year: fileNameYear } = parseCSFileName(fileName);
-  itm.outputDir = calculateOutputDir(fileNameYear);
+  itm.outputDir = outputDir;
+  itm.outputYear = fileNameYear;
   const { outputFileName, outputFileNameSquare } = calculateOutputMainFileName(
     hash,
     extension
   );
   itm.outputFileNameSquare = outputFileNameSquare;
   itm.outputFileName = outputFileName;
+  itm.outputHomeDir = ramkaOutputHomeDir;
   return itm;
-}
-
-function calculateOutputDir(fileNameYear) {
-  const outputDir = path.resolve(importDirHome, fileNameYear);
-  return outputDir;
 }
 
 function calculateOutputMainFileName(hash, extension) {
@@ -85,12 +84,24 @@ async function copyMediaToRamka(filesList) {
 async function performCopyMedia(itm) {
   const {
     importedPath: source,
+    outputHomeDir,
     outputDir,
+    outputYear,
     outputFileName,
     outputFileNameSquare
   } = itm;
-  const destination = path.resolve(outputDir, outputFileName);
-  const destinationSquare = path.resolve(outputDir, outputFileNameSquare);
+  const destination = path.resolve(
+    outputHomeDir,
+    outputDir,
+    outputYear,
+    outputFileName
+  );
+  const destinationSquare = path.resolve(
+    outputHomeDir,
+    outputDir,
+    outputYear,
+    outputFileNameSquare
+  );
   try {
     await copyFile(source, destination);
     await cropSquareImage(source, destinationSquare);
