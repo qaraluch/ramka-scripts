@@ -36,6 +36,45 @@ const jpg = {
   ext: ".jpg"
 };
 
+const jpgSame = {
+  path:
+    // file version changed to 1 but the same file
+    "/mnt/g/gallery/aadisk-gallery/galeria-saved/2019-05-19 13.29.28-1 - niedzica.jpg",
+  stats: {
+    dev: 20,
+    mode: 33279,
+    nlink: 1,
+    uid: 1002,
+    gid: 1002,
+    rdev: 0,
+    blksize: 4096,
+    ino: 7881299347932306,
+    size: 3635695,
+    blocks: 7104,
+    atimeMs: 1559594844674.7915,
+    mtimeMs: 1558265368000,
+    ctimeMs: 1559594845380.1567,
+    birthtimeMs: 1559594845380.1567,
+    atime: "2019-06-03T20:47:24.675Z",
+    mtime: "2019-05-19T11:29:28.000Z",
+    ctime: "2019-06-03T20:47:25.380Z",
+    birthtime: "2019-06-03T20:47:25.380Z",
+    isFile: true,
+    isDirectory: false,
+    isBlockDevice: false,
+    isCharacterDevice: false,
+    isSymbolicLink: false,
+    isFIFO: false,
+    isSocket: false
+  },
+  cwd: "/mnt/g/gallery/aadisk-gallery/galeria-saved",
+  crown: "/2019-05-19 13.29.28-1 - niedzica.jpg",
+  parent: "galeria-saved",
+  isFile: true,
+  name: "2019-05-19 13.29.28-1 - niedzica.jpg",
+  ext: ".jpg"
+};
+
 const png = {
   path:
     "/mnt/g/gallery/aadisk-gallery/galeria-saved/2019-04-21 13.05.05-0 - wielkanoc.png",
@@ -116,6 +155,11 @@ function getCSDifferentFiles() {
   return Promise.resolve([png, gif, jpg]);
 }
 
+function getCSSameFiles() {
+  return Promise.resolve([jpg, jpgSame]);
+}
+
 module.exports = {
-  getCSDifferentFiles
+  getCSDifferentFiles,
+  getCSSameFiles
 };

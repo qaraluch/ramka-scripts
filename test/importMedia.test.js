@@ -91,4 +91,12 @@ it("should import new file to the system", async () => {
   expect(putNewMediaToDB).toHaveBeenLastCalledWith(
     expect.arrayContaining([expect.objectContaining(expectedRecord)])
   );
+
+  // return data
+  //TODO: iplement it!
+});
+
+it("should not import media file when already exists in the system", () => {
+  // return data
+  //TODO: iplement it!
 });
