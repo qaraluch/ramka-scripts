@@ -1,0 +1,16 @@
+const { generateId } = require("../src/utils");
+
+let id = generateId();
+
+function getHashFileDifferent() {
+  return Promise.resolve(`111fakehash${id.next().value}`);
+}
+
+function getHashFileSame() {
+  return Promise.resolve("222fakehashsame0");
+}
+
+module.exports = {
+  getHashFileDifferent,
+  getHashFileSame
+};
