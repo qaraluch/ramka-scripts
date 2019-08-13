@@ -1,4 +1,6 @@
 const { importMedia } = require("../src/importMedia");
+
+// mocked fns:
 const { copyFile } = require("../src/copyFile");
 const { putNewMediaToDB } = require("../src/db");
 
@@ -49,10 +51,20 @@ jest.mock("../src/cropSquareImage", () => {
   };
 });
 
-jest.mock("../src/db", () => ({
-  ...jest.requireActual("../src/db"),
-  putNewMediaToDB: jest.fn()
-}));
+jest.mock("../src/db", () => {
+  const returnDbConfirmationObj = obj => {
+    const confirmations = obj.map(itm => ({
+      ok: true,
+      id: itm._id,
+      rev: "X-XXXXXXXXXXXXXXXXXXXXXX"
+    }));
+    return confirmations;
+  };
+  return {
+    ...jest.requireActual("../src/db"),
+    putNewMediaToDB: jest.fn(returnDbConfirmationObj)
+  };
+});
 
 const t_importPath =
   "/mnt/g/gallery/aadisk-gallery/galeria-saved/2019-05-19 13.29.28-0 - niedzica.jpg";
@@ -63,11 +75,14 @@ const t_outputPath = `${t_outputDir}/${t_Id}.jpg`;
 const t_dbSourceImagePath = `${t_dbSourceDir}/${t_Id}.jpg`;
 
 it("should import new file to the system", async () => {
-  await importMedia();
+  const t_inputCount = 3;
+  const actual = await importMedia();
 
   // copy default file
   const copyFileSourcePath = t_importPath;
   const copyFileDestinationPath = t_outputPath;
+  //TODO: add to tiljs
+  expect(copyFile).toHaveBeenCalledTimes(t_inputCount);
   expect(copyFile).toHaveBeenLastCalledWith(
     copyFileSourcePath,
     copyFileDestinationPath
@@ -75,6 +90,7 @@ it("should import new file to the system", async () => {
 
   // crop square file
   const cropSquareDestinationPath = t_outputPath;
+  expect(copyFile).toHaveBeenCalledTimes(t_inputCount);
   expect(copyFile).toHaveBeenLastCalledWith(
     expect.anything(),
     cropSquareDestinationPath
@@ -88,15 +104,18 @@ it("should import new file to the system", async () => {
     fileMetadata: expect.objectContaining({ isFile: true }),
     source: t_dbSourceImagePath
   };
+  expect(copyFile).toHaveBeenCalledTimes(t_inputCount);
   expect(putNewMediaToDB).toHaveBeenLastCalledWith(
     expect.arrayContaining([expect.objectContaining(expectedRecord)])
   );
 
   // return data
-  //TODO: iplement it!
+  expect(actual.inputCount).toBe(3);
+  expect(actual.outputCount).toBe(3);
 });
 
-it("should not import media file when already exists in the system", () => {
+it.skip("should not import media file when already exists in the system", async () => {
+  const actual = await importMedia();
   // return data
   //TODO: iplement it!
 });
