@@ -10,7 +10,12 @@ function getHashFileSame() {
   return Promise.resolve("222fakehashsame0");
 }
 
+function resetHashCounter() {
+  id = generateId();
+}
+
 module.exports = {
   getHashFileDifferent,
-  getHashFileSame
+  getHashFileSame,
+  resetHashCounter
 };

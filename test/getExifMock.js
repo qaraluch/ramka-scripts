@@ -107,6 +107,11 @@ const gif_exif = {
   error: null
 };
 
+const dummy = {
+  data: [],
+  error: null
+};
+
 function getExifMockData_jpg() {
   return Promise.resolve(jpg_exif);
 }
@@ -119,8 +124,13 @@ function getExifMockData_gif() {
   return Promise.resolve(gif_exif);
 }
 
+function getExifMockDummy() {
+  return Promise.resolve(dummy);
+}
+
 module.exports = {
   getExifMockData_jpg,
   getExifMockData_png,
-  getExifMockData_gif
+  getExifMockData_gif,
+  getExifMockDummy
 };

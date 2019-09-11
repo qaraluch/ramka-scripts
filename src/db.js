@@ -49,8 +49,22 @@ function DBrecordsMapper(itm) {
   return DBrecord;
 }
 
+async function pullAllHashesDB() {
+  let db = initDB(nameDB);
+  try {
+    const allDocs = await db.allDocs({ include_docs: true });
+    const allHashes = allDocs.rows.map(itm => itm.doc.hash);
+    return allHashes;
+  } catch (error) {
+    throw new Error(
+      `talkDB - pullAllHashesDB() - Sth. went wrong: ...\n ${error}`
+    );
+  }
+}
+
 module.exports = {
   initDB,
   prepareDBRecord,
-  putNewMediaToDB
+  putNewMediaToDB,
+  pullAllHashesDB
 };
