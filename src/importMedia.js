@@ -15,6 +15,7 @@ async function importMedia() {
     const filesList_extraInfo = await readExtraMetadataInfo(filesList);
     const filesList_outputPaths = calculateOutputPaths(filesList_extraInfo);
     await copyMediaToRamka(filesList_outputPaths);
+    //TODO: zwraca pozytywy przy kopiowaniu, jeżeli all good to contynuacja.
     const mediaListForDB = prepareDBRecord(filesList_outputPaths);
     const confirmations = await putNewMediaToDB(mediaListForDB);
     const outputCount = confirmations.length;

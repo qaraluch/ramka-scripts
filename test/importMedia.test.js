@@ -36,6 +36,11 @@ const t_outputPathSquare =
   "/mnt/h/ramka/data/images/2019/111fakehash2_square.jpg";
 const t_dbSourceImagePath = `data/images/2019/${t_Id}.jpg`;
 
+afterEach(() => {
+  //TODO: to tiljs: reset couners on on toHaveBeenCalledTimes
+  jest.clearAllMocks();
+});
+
 it("should import new file to the system", async () => {
   //Arrange
   const t_inputCount = 3;
@@ -95,12 +100,19 @@ it("should import new file to the system", async () => {
   expect(actual.outputCount).toBe(t_inputCount);
 });
 
-it.skip("should not import media file when already exists in the system", async () => {
+it("should not import media file when already exists in the system", async () => {
   //Arrange
   const t_inputCount = 2;
   const t_outputCount = 1;
   walkDir.mockImplementation(getCSSameFiles);
   hashFile.mockImplementation(getHashFileSame);
+  getExif
+    .mockReturnValueOnce(getExifMockData_jpg())
+    .mockReturnValueOnce(getExifMockData_jpg())
+    .mockReturnValue(
+      "no exif data for next mock call... add it to test/getExifMock.js if needed"
+    );
+  putNewMediaToDB.mockImplementation(returnDbConfirmationObj);
 
   //Act
   const actual = await importMedia();
