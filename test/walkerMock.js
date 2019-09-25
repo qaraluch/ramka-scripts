@@ -75,6 +75,17 @@ const jpgSame = {
   ext: ".jpg"
 };
 
+const jpgNoDate = {
+  path: "/mnt/g/gallery/aadisk-gallery/galeria-saved/1990 - jakas fotka.jpg",
+  stats: {},
+  cwd: "/mnt/g/gallery/aadisk-gallery/galeria-saved",
+  crown: "/1990 - jakas fotka.jpg",
+  parent: "galeria-saved",
+  isFile: true,
+  name: "1990 - jakas fotka.jpg",
+  ext: ".jpg"
+};
+
 const png = {
   path:
     "/mnt/g/gallery/aadisk-gallery/galeria-saved/2019-04-21 13.05.05-0 - wielkanoc.png",
@@ -159,7 +170,12 @@ function getCSSameFiles() {
   return Promise.resolve([jpg, jpgSame]);
 }
 
+function getCSFilesWithNoDate() {
+  return Promise.resolve([jpg, jpgNoDate]);
+}
+
 module.exports = {
   getCSDifferentFiles,
-  getCSSameFiles
+  getCSSameFiles,
+  getCSFilesWithNoDate
 };

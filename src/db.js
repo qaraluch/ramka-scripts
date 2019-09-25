@@ -62,9 +62,14 @@ async function pullAllHashesDB() {
   }
 }
 
+function filterConfirmationFailed(confirmations) {
+  return confirmations.filter(itm => itm.error === true);
+}
+
 module.exports = {
   initDB,
   prepareDBRecord,
   putNewMediaToDB,
-  pullAllHashesDB
+  pullAllHashesDB,
+  filterConfirmationFailed
 };

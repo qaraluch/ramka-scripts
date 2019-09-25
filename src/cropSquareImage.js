@@ -6,8 +6,12 @@ async function cropSquareImage(file, outputPath) {
     const image = await jimp.read(file);
     image.cover(150, 150); // size
     image.write(outputPath);
+    return [false, true];
   } catch (error) {
-    throw new Error(`cropSquareImage.js - Sth. went wrong: ...\n ${error}`);
+    const verror = new Error(
+      `cropSquareImage.js - Sth. went wrong: with ${file} to ${outputPath}...\n ${error}`
+    );
+    return [verror, false];
   }
 }
 

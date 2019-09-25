@@ -2,22 +2,31 @@ const {
   walkInputDir,
   readExtraMetadataInfo,
   copyMediaToRamka,
-  calculateOutputPaths
+  calculateOutputPaths,
+  filterOutCopyFailed
 } = require("./fs");
-const { putNewMediaToDB, prepareDBRecord, pullAllHashesDB } = require("./db");
+const {
+  putNewMediaToDB,
+  prepareDBRecord,
+  pullAllHashesDB,
+  filterConfirmationFailed
+} = require("./db");
 const {
   findDuplicatesInInportedFiles,
   findDuplicatesInDB
 } = require("./dedupe.js");
 
-const dirCsImportDir = "/mnt/g/gallery/aadisk-gallery/galeria-saved";
-
 async function importMedia() {
   try {
-    const filesList = await walkInputDir(dirCsImportDir);
+    const filesList = await walkInputDir();
     const inputCount = filesList.length;
-    const filesList_extraInfo = await readExtraMetadataInfo(filesList);
-    const filesList_outputPaths = calculateOutputPaths(filesList_extraInfo);
+    const [
+      filesList_extraInfo,
+      filesList_exifError
+    ] = await readExtraMetadataInfo(filesList);
+    const [filesList_outputPaths, noDateFilesList] = calculateOutputPaths(
+      filesList_extraInfo
+    );
     const [
       filesList_importUniq,
       filesList_importDups
@@ -27,17 +36,30 @@ async function importMedia() {
       filesList_importUniq,
       dbAllHashes
     );
-    //TODO: implement reporting of filesList_importDups
-    await copyMediaToRamka(filesList_dbUniq);
-    //TODO: zwraca pozytywy przy kopiowaniu, jeżeli all good to contynuacja.
-    const mediaListForDB = prepareDBRecord(filesList_dbUniq);
+    const copyMediaResults = await copyMediaToRamka(filesList_dbUniq);
+    const [filesList_copyGood, filesList_copyFailed] = filterOutCopyFailed(
+      filesList_dbUniq,
+      copyMediaResults
+    );
+    const mediaListForDB = prepareDBRecord(filesList_copyGood);
     const confirmations = await putNewMediaToDB(mediaListForDB);
+    const confirmationsFailed = filterConfirmationFailed(confirmations);
+    // TODO: implement+test when edge case occurs
     const outputCount = confirmations.length;
-    const result = { inputCount, outputCount };
+    const result = {
+      inputCount,
+      outputCount,
+      filesListExifError: filesList_exifError,
+      filesListDuplicatesImport: filesList_importDups,
+      filesListDuplicatesDB: filesList_dbDups,
+      filesListNoDates: noDateFilesList,
+      filesListCopyFailed: filesList_copyFailed,
+      confirmations,
+      confirmationsFailed
+    };
     return result;
   } catch (error) {
     throw new Error(`importMedia.js - Sth. went wrong: ...\n ${error.stack}`);
-    //TODO: add stack to all error calls
   }
 }
 

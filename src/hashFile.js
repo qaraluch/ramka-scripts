@@ -6,7 +6,7 @@ async function hashFile(path) {
     return hash;
   } catch (error) {
     throw new Error(
-      `hashFile.js - sth. went wrong with calculate hash for a file: ${path}. \n ${error}`
+      `hashFile.js - sth. went wrong with calculate hash for a file: ${path}. \n ${error.stack}`
     );
   }
 }

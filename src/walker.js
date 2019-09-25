@@ -14,7 +14,7 @@ async function walkDir(path) {
     return filesList;
   } catch (error) {
     throw new Error(
-      `walker.js - sth. went wrong with walking a dir: ${path} on the disk. \n ${error}`
+      `walker.js - sth. went wrong with walking a dir: ${path} on the disk. \n ${error.stack}`
     );
   }
 }

@@ -10,9 +10,10 @@ const path = require("path");
 //TODO: add to config.js
 const ramkaOutputHomeDir = "/mnt/h/ramka";
 const outputDir = "data/images";
+const dirCsImportDir = "/mnt/g/gallery/aadisk-gallery/galeria-saved";
 
-async function walkInputDir(inputPath) {
-  const filesInfo = await walkDir(inputPath);
+async function walkInputDir() {
+  const filesInfo = await walkDir(dirCsImportDir);
   const filesInfoFileMetadata = creatFilesList(filesInfo);
   return filesInfoFileMetadata;
 }
@@ -30,26 +31,32 @@ function creatFilesList(filesInfo) {
 
 async function readExtraMetadataInfo(filesList) {
   const readInfosThrottled = throttleIt(performReadInfo, 10);
-  const results = await readInfosThrottled(filesList);
-  return results;
+  const filesList_extraInfo = await readInfosThrottled(filesList);
+  const filesList_exifError = filterExifErrorItems(filesList_extraInfo);
+  return [filesList_extraInfo, filesList_exifError];
+}
+
+function filterExifErrorItems(filesList) {
+  const result = filesList.filter(itm => itm.exif.error !== null);
+  return result;
 }
 
 async function performReadInfo(itm) {
-  try {
-    const { importedPath: path } = itm;
-    const hash = await hashFile(path);
-    const exif = await getExif(path);
-    const newItm = { hash, exif, ...itm };
-    return newItm;
-  } catch (error) {
-    throw new Error(`readFilesInfos.js - Sth. went wrong: ...\n ${error}`);
-  }
+  const { importedPath: path } = itm;
+  const hash = await hashFile(path);
+  const exif = await getExif(path);
+  const newItm = { hash, exif, ...itm };
+  return newItm;
 }
 
 function calculateOutputPaths(filesList) {
   const updatedFilesList = filesList.map(outputPathsMapper);
-  return updatedFilesList;
+  const noDateFilesList = updatedFilesList.filter(noDateFilter);
+  return [updatedFilesList, noDateFilesList];
 }
+
+const noDataDirName = "beforeTime";
+const noDateFilter = itm => itm.outputYear === noDataDirName;
 
 function outputPathsMapper(itm) {
   const {
@@ -58,7 +65,7 @@ function outputPathsMapper(itm) {
   } = itm;
   const { year: fileNameYear } = parseCSFileName(fileName);
   itm.outputDir = outputDir;
-  itm.outputYear = fileNameYear;
+  itm.outputYear = fileNameYear || noDataDirName;
   const { outputFileName, outputFileNameSquare } = calculateOutputMainFileName(
     hash,
     extension
@@ -102,19 +109,44 @@ async function performCopyMedia(itm) {
     outputYear,
     outputFileNameSquare
   );
-  try {
-    await copyFile(source, destination);
-    await cropSquareImage(source, destinationSquare);
-  } catch (error) {
-    throw new Error(
-      `fs.js copyMediaToRamka() - Sth. went wrong: ...\n ${error}`
-    );
-  }
+  const [errorCp, resultCp] = await copyFile(source, destination);
+  const [errorCrop, resultCrop] = await cropSquareImage(
+    source,
+    destinationSquare
+  );
+  return [errorCp, resultCp, errorCrop, resultCrop];
+}
+
+function filterOutCopyFailed(filesList, copyResults) {
+  const copyResultsGoodTable = copyResults.map(itm =>
+    itm[1] === true && itm[3] === true ? true : false
+  );
+
+  const copyFailedReducer = (accumulator, current, idx) => {
+    const accumulatorGood = accumulator[0];
+    const accumulatorBad = accumulator[1];
+    const currentWithExtraInfo = {
+      ...current,
+      copyErrorMsg: copyResults[idx][0],
+      copySuccess: copyResults[idx][1],
+      cropErrorMsg: copyResults[idx][2],
+      cropSuccess: copyResults[idx][3]
+    };
+    if (copyResultsGoodTable[idx]) {
+      return [[...accumulatorGood, currentWithExtraInfo], [...accumulatorBad]];
+    } else {
+      return [[...accumulatorGood], [...accumulatorBad, currentWithExtraInfo]];
+    }
+  };
+
+  const filesLists = filesList.reduce(copyFailedReducer, [[], []]);
+  return filesLists; // [good, failed]
 }
 
 module.exports = {
   walkInputDir,
   readExtraMetadataInfo,
   calculateOutputPaths,
-  copyMediaToRamka
+  copyMediaToRamka,
+  filterOutCopyFailed
 };
