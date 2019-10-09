@@ -13,8 +13,17 @@ const fakeFileList = [
   }
 ];
 
+const options = {
+  ramkaHomeDir: "/mnt/h/ramka",
+  mediaRepoDir: "data/images"
+};
+
 it("calculateOutputPaths() - should calculate file name and output file path imported to the system ", () => {
-  const actual = calculateOutputPaths(fakeFileList)[0][0];
+  const actual = calculateOutputPaths(
+    fakeFileList,
+    options.mediaRepoDir,
+    options.ramkaHomeDir
+  )[0][0];
   const expectedHomeDir = "/mnt/h/ramka";
   const expectedDir = "data/images";
   const expectedYear = "2019";

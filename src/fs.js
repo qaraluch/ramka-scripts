@@ -7,13 +7,8 @@ const { cropSquareImage } = require("./cropSquareImage");
 const { parseCSFileName } = require("./utils");
 const path = require("path");
 
-//TODO: add to config.js
-const ramkaOutputHomeDir = "/mnt/h/ramka";
-const outputDir = "data/images";
-const dirCsImportDir = "/mnt/g/gallery/aadisk-gallery/galeria-saved";
-
-async function walkInputDir() {
-  const filesInfo = await walkDir(dirCsImportDir);
+async function walkInputDir(optionsMediaImportDir) {
+  const filesInfo = await walkDir(optionsMediaImportDir);
   const filesInfoFileMetadata = creatFilesList(filesInfo);
   return filesInfoFileMetadata;
 }
@@ -49,31 +44,35 @@ async function performReadInfo(itm) {
   return newItm;
 }
 
-function calculateOutputPaths(filesList) {
-  const updatedFilesList = filesList.map(outputPathsMapper);
-  const noDateFilesList = updatedFilesList.filter(noDateFilter);
-  return [updatedFilesList, noDateFilesList];
-}
-
 const noDataDirName = "beforeTime";
 const noDateFilter = itm => itm.outputYear === noDataDirName;
 
-function outputPathsMapper(itm) {
-  const {
-    fileMetadata: { name: fileName, ext: extension },
-    hash
-  } = itm;
-  const { year: fileNameYear } = parseCSFileName(fileName);
-  itm.outputDir = outputDir;
-  itm.outputYear = fileNameYear || noDataDirName;
-  const { outputFileName, outputFileNameSquare } = calculateOutputMainFileName(
-    hash,
-    extension
-  );
-  itm.outputFileNameSquare = outputFileNameSquare;
-  itm.outputFileName = outputFileName;
-  itm.outputHomeDir = ramkaOutputHomeDir;
-  return itm;
+function calculateOutputPaths(
+  filesList,
+  optionsMediaRepoDir,
+  optionsRamkaHomeDir
+) {
+  function outputPathsMapper(itm) {
+    const {
+      fileMetadata: { name: fileName, ext: extension },
+      hash
+    } = itm;
+    const { year: fileNameYear } = parseCSFileName(fileName);
+    itm.outputDir = optionsMediaRepoDir;
+    itm.outputYear = fileNameYear || noDataDirName;
+    const {
+      outputFileName,
+      outputFileNameSquare
+    } = calculateOutputMainFileName(hash, extension);
+    itm.outputFileNameSquare = outputFileNameSquare;
+    itm.outputFileName = outputFileName;
+    itm.outputHomeDir = optionsRamkaHomeDir;
+    return itm;
+  }
+
+  const updatedFilesList = filesList.map(outputPathsMapper);
+  const noDateFilesList = updatedFilesList.filter(noDateFilter);
+  return [updatedFilesList, noDateFilesList];
 }
 
 function calculateOutputMainFileName(hash, extension) {

@@ -1,5 +1,12 @@
 const { importMedia } = require("../src/importMedia");
 
+//TODO: add to config.js
+const options = {
+  ramkaHomeDir: "/mnt/h/ramka",
+  mediaRepoDir: "data/images",
+  mediaImportDir: "/mnt/g/gallery/aadisk-gallery/galeria-saved"
+};
+
 // mocked fns and its utils:
 const {
   getCSDifferentFiles,
@@ -82,7 +89,7 @@ it("should import new file to the system", async () => {
   cropSquareImage.mockImplementation(cropSquareImageMockImplNormal);
 
   //Act
-  const actual = await importMedia();
+  const actual = await importMedia(options);
 
   //Assert
   // copy default file
@@ -140,7 +147,7 @@ it("should not import media file when duplicates already exist in the import dir
   cropSquareImage.mockImplementation(cropSquareImageMockImplNormal);
 
   //Act
-  const actual = await importMedia();
+  const actual = await importMedia(options);
 
   //Assert
   // copy default file
@@ -178,7 +185,7 @@ it("should not import media file when duplikates already exist in the Database",
   cropSquareImage.mockImplementation(cropSquareImageMockImplNormal);
 
   //Act
-  const actual = await importMedia();
+  const actual = await importMedia(options);
 
   //Assert
   // copy default file
@@ -216,7 +223,7 @@ it("should not deal with media file when can not parse year from its filename da
   cropSquareImage.mockImplementation(cropSquareImageMockImplNormal);
 
   //Act
-  const actual = await importMedia();
+  const actual = await importMedia(options);
 
   //Assert
   // copy default file
@@ -257,7 +264,7 @@ it("should filter out media item from putting to DB when copyFile and cropSquare
     .mockImplementation(cropSquareImageMockImplThrow);
 
   //Act
-  const actual = await importMedia();
+  const actual = await importMedia(options);
 
   //DB put calls
   expect(putNewMediaToDB).toHaveBeenCalledTimes(1); // bulkDocs

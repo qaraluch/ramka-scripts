@@ -16,16 +16,18 @@ const {
   findDuplicatesInDB
 } = require("./dedupe.js");
 
-async function importMedia() {
+async function importMedia(options) {
   try {
-    const filesList = await walkInputDir();
+    const filesList = await walkInputDir(options.mediaImportDir);
     const inputCount = filesList.length;
     const [
       filesList_extraInfo,
       filesList_exifError
     ] = await readExtraMetadataInfo(filesList);
     const [filesList_outputPaths, noDateFilesList] = calculateOutputPaths(
-      filesList_extraInfo
+      filesList_extraInfo,
+      options.mediaRepoDir,
+      options.ramkaHomeDir
     );
     const [
       filesList_importUniq,
