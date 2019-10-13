@@ -4,7 +4,10 @@ const { importMedia } = require("../src/importMedia");
 const options = {
   ramkaHomeDir: "/mnt/h/ramka",
   mediaRepoDir: "data/images",
-  mediaImportDir: "/mnt/g/gallery/aadisk-gallery/galeria-saved"
+  mediaImportDir: "/mnt/g/gallery/aadisk-gallery/galeria-saved",
+  dbName: ".DB-ramka",
+  dryRunCopyMedia: false,
+  dryRunDBPut: false
 };
 
 // mocked fns and its utils:
@@ -123,7 +126,8 @@ it("should import new file to the system", async () => {
   };
   expect(putNewMediaToDB).toHaveBeenCalledTimes(1); // bulkDocs
   expect(putNewMediaToDB).toHaveBeenLastCalledWith(
-    expect.arrayContaining([expect.objectContaining(expectedRecord)])
+    expect.arrayContaining([expect.objectContaining(expectedRecord)]),
+    expect.anything()
   );
 
   // return data
@@ -270,10 +274,11 @@ it("should filter out media item from putting to DB when copyFile and cropSquare
   expect(putNewMediaToDB).toHaveBeenCalledTimes(1); // bulkDocs
   const expectedRecord = { _id: "111fakehash0" };
   expect(putNewMediaToDB).toHaveBeenLastCalledWith(
-    expect.arrayContaining([expect.objectContaining(expectedRecord)])
+    expect.arrayContaining([expect.objectContaining(expectedRecord)]),
+    expect.anything()
   );
   const putNewMediaToDBCall = putNewMediaToDB.mock.calls[0];
-  expect(putNewMediaToDBCall.length).toBe(1); //check if fn is called with argument that has length = 1
+  expect(putNewMediaToDBCall[0].length).toBe(1); //check if fn is called with first argument that has length = 1
 
   // return data
   expect(actual.inputCount).toBe(t_inputCount);

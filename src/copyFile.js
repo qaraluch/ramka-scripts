@@ -6,12 +6,10 @@ async function copyFile(source, destination, options = { overwrite: false }) {
     return [false, true];
   } catch (error) {
     const verror = new Error(
-      `copyFile.js - Sth. went wrong: with file ${source} cp to ${destination} ...\n ${
-        error
-      }`
+      `copyFile.js - Sth. went wrong: with file ${source} cp to ${destination} ...\n ${error}`
     );
+    return [verror, false];
   }
-  return [verror, false];
 }
 
 module.exports = {

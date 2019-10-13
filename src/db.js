@@ -2,15 +2,13 @@ const PouchDB = require("pouchdb");
 const path = require("path");
 
 //TODO: add to tiljs when db operations will be stabile
-const nameDB = ".DB-ramka";
-
 function initDB(name) {
   let db = new PouchDB(name);
   return db;
 }
 
-async function putNewMediaToDB(mediaList) {
-  let db = initDB(nameDB);
+async function putNewMediaToDB(mediaList, dbName) {
+  let db = initDB(dbName);
   try {
     let result = await db.bulkDocs(mediaList);
     return result;
@@ -49,8 +47,8 @@ function DBrecordsMapper(itm) {
   return DBrecord;
 }
 
-async function pullAllHashesDB() {
-  let db = initDB(nameDB);
+async function pullAllHashesDB(dbName) {
+  let db = initDB(dbName);
   try {
     const allDocs = await db.allDocs({ include_docs: true });
     const allHashes = allDocs.rows.map(itm => itm.doc.hash);
