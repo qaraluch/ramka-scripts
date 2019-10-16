@@ -19,49 +19,49 @@ const {
 
 async function importMedia(options) {
   try {
-    const filesList = await walkInputDir(options.mediaImportDir);
-    const inputCount = filesList.length;
+    const fileList = await walkInputDir(options.mediaImportDir);
+    const inputCount = fileList.length;
 
     const [
-      filesList_extraInfo,
-      filesList_exifError
-    ] = await readExtraMetadataInfo(filesList);
+      fileList_extraInfo,
+      fileList_exifError
+    ] = await readExtraMetadataInfo(fileList);
 
-    const [filesList_outputPaths, noDateFilesList] = calculateOutputPaths(
-      filesList_extraInfo,
+    const [fileList_outputPaths, noDateFilesList] = calculateOutputPaths(
+      fileList_extraInfo,
       options.mediaRepoDir,
       options.ramkaHomeDir
     );
 
     const [
-      filesList_importUniq,
-      filesList_importDups
-    ] = findDuplicatesInInportedFiles(filesList_outputPaths);
+      fileList_importUniq,
+      fileList_importDups
+    ] = findDuplicatesInInportedFiles(fileList_outputPaths);
 
-    const filesList_importDupsPaths = listImportedDupPaths(
-      filesList_importUniq,
-      filesList_importDups
+    const fileList_importDupsPaths = listImportedDupPaths(
+      fileList_importUniq,
+      fileList_importDups
     );
 
     const dbAllHashes = await pullAllHashesDB(options.dbName);
 
-    const [filesList_dbUniq, filesList_dbDups] = findDuplicatesInDB(
-      filesList_importUniq,
+    const [fileList_dbUniq, fileList_dbDups] = findDuplicatesInDB(
+      fileList_importUniq,
       dbAllHashes
     );
 
     let copyMediaResults;
     if (options.dryRunCopyMedia) {
-      copyMediaResults = filesList_dbUniq.map(() => [false, true, false, true]);
+      copyMediaResults = fileList_dbUniq.map(() => [false, true, false, true]);
     } else {
-      copyMediaResults = await copyMediaToRamka(filesList_dbUniq);
+      copyMediaResults = await copyMediaToRamka(fileList_dbUniq);
     }
-    const [filesList_copyGood, filesList_copyFailed] = filterOutCopyFailed(
-      filesList_dbUniq,
+    const [fileList_copyGood, fileList_copyFailed] = filterOutCopyFailed(
+      fileList_dbUniq,
       copyMediaResults
     );
 
-    const mediaListForDB = prepareDBRecord(filesList_copyGood);
+    const mediaListForDB = prepareDBRecord(fileList_copyGood);
 
     let confirmations;
     let confirmationsFailed;
@@ -78,12 +78,12 @@ async function importMedia(options) {
     const result = {
       inputCount,
       outputCount,
-      filesListExifError: filesList_exifError,
-      filesListDuplicatesImport: filesList_importDups,
-      filesListDuplicatesImportPaths: filesList_importDupsPaths,
-      filesListDuplicatesDB: filesList_dbDups,
-      filesListNoDates: noDateFilesList,
-      filesListCopyFailed: filesList_copyFailed,
+      fileListExifError: fileList_exifError,
+      fileListDuplicatesImport: fileList_importDups,
+      fileListDuplicatesImportPaths: fileList_importDupsPaths,
+      fileListDuplicatesDB: fileList_dbDups,
+      fileListNoDates: noDateFilesList,
+      fileListCopyFailed: fileList_copyFailed,
       confirmations,
       confirmationsFailed
     };

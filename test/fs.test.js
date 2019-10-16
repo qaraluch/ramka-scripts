@@ -36,7 +36,7 @@ it("calculateOutputPaths() - should calculate file name and output file path imp
   expect(actual.outputFileNameSquare).toBe(expectedSquare);
 });
 
-const filesList = [
+const fileList = [
   {
     name: "2019-05-19 13.29.28-0 - niedzica.jpg"
   },
@@ -51,7 +51,7 @@ const filesList = [
   }
 ];
 
-const filesListResultGood = [
+const fileListResultGood = [
   {
     name: "2019-05-19 13.29.28-0 - niedzica.jpg",
     copySuccess: true,
@@ -61,7 +61,7 @@ const filesListResultGood = [
   }
 ];
 
-const filesListResultFailed = [
+const fileListResultFailed = [
   {
     name: "2019-05-19 13.29.28-1 - niedzica.jpg",
     copySuccess: false,
@@ -93,13 +93,10 @@ const copyResults = [
   ["Error: copy failed", false, "Error: crop failed", false]
 ];
 
-it("filterOutCopyFailed() - should filter out filesList array based on result of copy and crop operation", () => {
-  const [actualGood, actualFailed] = filterOutCopyFailed(
-    filesList,
-    copyResults
-  );
+it("filterOutCopyFailed() - should filter out fileList array based on result of copy and crop operation", () => {
+  const [actualGood, actualFailed] = filterOutCopyFailed(fileList, copyResults);
   expect(actualGood.length).toBe(1);
   expect(actualFailed.length).toBe(3);
-  expect(actualGood).toEqual(filesListResultGood);
-  expect(actualFailed).toEqual(filesListResultFailed);
+  expect(actualGood).toEqual(fileListResultGood);
+  expect(actualFailed).toEqual(fileListResultFailed);
 });

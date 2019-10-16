@@ -5,8 +5,8 @@ const compareByProperty = item => item.hash;
 
 const dedupe = dedupeInit({ hasher, compareByProperty });
 
-function findDuplicatesInInportedFiles(filesList) {
-  const result = dedupe(filesList);
+function findDuplicatesInInportedFiles(fileList) {
+  const result = dedupe(fileList);
   return result; // [uniqs, dups]
 }
 
@@ -24,9 +24,9 @@ const dedupeByFn = (targetArr, testFn) => {
   return [uniqs, dups];
 };
 
-function findDuplicatesInDB(filesList, dbAllHashes) {
+function findDuplicatesInDB(fileList, dbAllHashes) {
   const testFn = itm => dbAllHashes.includes(itm.hash);
-  const result = dedupeByFn(filesList, testFn);
+  const result = dedupeByFn(fileList, testFn);
   return result; // [uniqs, dups]
 }
 

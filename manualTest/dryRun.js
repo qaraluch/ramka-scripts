@@ -17,26 +17,26 @@ async function runDryRun() {
     const {
       inputCount,
       outputCount,
-      filesListExifError,
-      filesListDuplicatesImport,
-      filesListDuplicatesDB,
-      filesListNoDates,
-      filesListCopyFailed,
+      fileListExifError,
+      fileListDuplicatesImport,
+      fileListDuplicatesDB,
+      fileListNoDates,
+      fileListCopyFailed,
       confirmations,
       confirmationsFailed
     } = result;
 
     console.log("inputCount ---->", inputCount);
     console.log("outputCount ---->", outputCount);
-    console.log("filesListExifError ---->", filesListExifError.length);
+    console.log("fileListExifError ---->", fileListExifError.length);
     console.log(
-      "filesListDuplicatesImport ---->",
-      filesListDuplicatesImport.length
-      // filesListDuplicatesImport
+      "fileListDuplicatesImport ---->",
+      fileListDuplicatesImport.length
+      // fileListDuplicatesImport
     );
-    console.log("filesListDuplicatesDB ---->", filesListDuplicatesDB.length);
-    console.log("filesListNoDates ---->", filesListNoDates.length);
-    console.log("filesListCopyFailed ---->", filesListCopyFailed.length);
+    console.log("fileListDuplicatesDB ---->", fileListDuplicatesDB.length);
+    console.log("fileListNoDates ---->", fileListNoDates.length);
+    console.log("fileListCopyFailed ---->", fileListCopyFailed.length);
     console.log("confirmationso ---->", confirmations.length);
     console.log("confirmationsFailed ---->", confirmationsFailed.length);
   } catch (error) {

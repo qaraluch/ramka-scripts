@@ -1,6 +1,6 @@
 const { findDuplicatesInDB } = require("../src/dedupe");
 
-const filesList = [
+const fileList = [
   { hash: "111fakehash0" },
   { hash: "111fakehash1" },
   { hash: "111fakehash2" }
@@ -14,8 +14,8 @@ const expectedDedupe = [
 ];
 // [uniq, dups]
 
-test("should find duplicate elements in DB and remove it from importes files list", () => {
-  const actual = findDuplicatesInDB(filesList, dbAllHashes);
+test("should find duplicate elements in DB and remove it from importes file list", () => {
+  const actual = findDuplicatesInDB(fileList, dbAllHashes);
   const expected = expectedDedupe;
   expect(actual).toEqual(expected);
 });

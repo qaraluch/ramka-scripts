@@ -8,13 +8,13 @@ const { parseCSFileName } = require("./utils");
 const path = require("path");
 
 async function walkInputDir(optionsMediaImportDir) {
-  const filesInfo = await walkDir(optionsMediaImportDir);
-  const filesInfoFileMetadata = creatFilesList(filesInfo);
-  return filesInfoFileMetadata;
+  const fileInfo = await walkDir(optionsMediaImportDir);
+  const fileInfoFileMetadata = creatFilesList(fileInfo);
+  return fileInfoFileMetadata;
 }
 
-function creatFilesList(filesInfo) {
-  const newFilesList = filesInfo.map(itm => {
+function creatFilesList(fileInfo) {
+  const newFilesList = fileInfo.map(itm => {
     let newItm = {
       importedPath: itm.path,
       fileMetadata: itm
@@ -24,15 +24,15 @@ function creatFilesList(filesInfo) {
   return newFilesList;
 }
 
-async function readExtraMetadataInfo(filesList) {
+async function readExtraMetadataInfo(fileList) {
   const readInfosThrottled = throttleIt(performReadInfo, 10);
-  const filesList_extraInfo = await readInfosThrottled(filesList);
-  const filesList_exifError = filterExifErrorItems(filesList_extraInfo);
-  return [filesList_extraInfo, filesList_exifError];
+  const fileList_extraInfo = await readInfosThrottled(fileList);
+  const fileList_exifError = filterExifErrorItems(fileList_extraInfo);
+  return [fileList_extraInfo, fileList_exifError];
 }
 
-function filterExifErrorItems(filesList) {
-  const result = filesList.filter(itm => itm.exif.error !== null);
+function filterExifErrorItems(fileList) {
+  const result = fileList.filter(itm => itm.exif.error !== null);
   return result;
 }
 
@@ -48,7 +48,7 @@ const noDataDirName = "beforeTime";
 const noDateFilter = itm => itm.outputYear === noDataDirName;
 
 function calculateOutputPaths(
-  filesList,
+  fileList,
   optionsMediaRepoDir,
   optionsRamkaHomeDir
 ) {
@@ -70,7 +70,7 @@ function calculateOutputPaths(
     return itm;
   }
 
-  const updatedFilesList = filesList.map(outputPathsMapper);
+  const updatedFilesList = fileList.map(outputPathsMapper);
   const noDateFilesList = updatedFilesList.filter(noDateFilter);
   return [updatedFilesList, noDateFilesList];
 }
@@ -81,9 +81,9 @@ function calculateOutputMainFileName(hash, extension) {
   return { outputFileName, outputFileNameSquare };
 }
 
-async function copyMediaToRamka(filesList) {
+async function copyMediaToRamka(fileList) {
   const readInfosThrottled = throttleIt(performCopyMedia, 10);
-  const results = await readInfosThrottled(filesList);
+  const results = await readInfosThrottled(fileList);
   return results;
 }
 
@@ -116,7 +116,7 @@ async function performCopyMedia(itm) {
   return [errorCp, resultCp, errorCrop, resultCrop];
 }
 
-function filterOutCopyFailed(filesList, copyResults) {
+function filterOutCopyFailed(fileList, copyResults) {
   const copyResultsGoodTable = copyResults.map(itm =>
     itm[1] === true && itm[3] === true ? true : false
   );
@@ -138,20 +138,20 @@ function filterOutCopyFailed(filesList, copyResults) {
     }
   };
 
-  const filesLists = filesList.reduce(copyFailedReducer, [[], []]);
-  return filesLists; // [good, failed]
+  const fileLists = fileList.reduce(copyFailedReducer, [[], []]);
+  return fileLists; // [good, failed]
 }
 
-function listImportedDupPaths(filesListUniq, filesListDups) {
-  if (Array.isArray(filesListDups) && !filesListDups.length == 0) {
-    const dupHashes = filesListDups.map(itm => itm.hash);
-    const result = filesListUniq.reduce((acc, cur) => {
+function listImportedDupPaths(fileListUniq, fileListDups) {
+  if (Array.isArray(fileListDups) && !fileListDups.length == 0) {
+    const dupHashes = fileListDups.map(itm => itm.hash);
+    const result = fileListUniq.reduce((acc, cur) => {
       const hash = cur.hash;
       const dupIdx = dupHashes.indexOf(hash);
       if (dupIdx >= 0) {
         return [
           ...acc,
-          [hash, cur.importedPath, filesListDups[dupIdx].importedPath]
+          [hash, cur.importedPath, fileListDups[dupIdx].importedPath]
         ];
       } else {
         return acc;

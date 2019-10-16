@@ -19,8 +19,8 @@ async function putNewMediaToDB(mediaList, dbName) {
   }
 }
 
-function prepareDBRecord(filesList) {
-  const DBrecords = filesList.map(DBrecordsMapper);
+function prepareDBRecord(fileList) {
+  const DBrecords = fileList.map(DBrecordsMapper);
   return DBrecords;
 }
 

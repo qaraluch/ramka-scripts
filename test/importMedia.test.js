@@ -166,9 +166,9 @@ it("should not import media file when duplicates already exist in the import dir
   // return data
   expect(actual.inputCount).toBe(t_inputCount);
   expect(actual.outputCount).toBe(t_outputCount);
-  expect(actual.filesListDuplicatesImport.length).toBe(1);
+  expect(actual.fileListDuplicatesImport.length).toBe(1);
   const expectedRecord = { hash: "222fakehashsame0" };
-  expect(actual.filesListDuplicatesImport).toEqual(
+  expect(actual.fileListDuplicatesImport).toEqual(
     expect.arrayContaining([expect.objectContaining(expectedRecord)])
   );
   const expectedUniqePath =
@@ -178,7 +178,7 @@ it("should not import media file when duplicates already exist in the import dir
   const expectedDuplicatesImportPaths = [
     [expectedRecord.hash, expectedUniqePath, expectedDupPath]
   ];
-  expect(actual.filesListDuplicatesImportPaths).toEqual(
+  expect(actual.fileListDuplicatesImportPaths).toEqual(
     expectedDuplicatesImportPaths
   );
 });
@@ -214,9 +214,9 @@ it("should not import media file when duplikates already exist in the Database",
   // return data
   expect(actual.inputCount).toBe(t_inputCount);
   expect(actual.outputCount).toBe(t_outputCount);
-  expect(actual.filesListDuplicatesDB.length).toBe(1);
+  expect(actual.fileListDuplicatesDB.length).toBe(1);
   const expectedRecord = { hash: "111fakehash2" };
-  expect(actual.filesListDuplicatesDB).toEqual(
+  expect(actual.fileListDuplicatesDB).toEqual(
     expect.arrayContaining([expect.objectContaining(expectedRecord)])
   );
 });
@@ -252,9 +252,9 @@ it("should not deal with media file when can not parse year from its filename da
   // return data
   expect(actual.inputCount).toBe(t_inputCount);
   expect(actual.outputCount).toBe(t_outputCount);
-  expect(actual.filesListNoDates.length).toBe(1);
+  expect(actual.fileListNoDates.length).toBe(1);
   const expectedRecord = { hash: "111fakehash1" };
-  expect(actual.filesListNoDates).toEqual(
+  expect(actual.fileListNoDates).toEqual(
     expect.arrayContaining([expect.objectContaining(expectedRecord)])
   );
 });
@@ -293,10 +293,10 @@ it("should filter out media item from putting to DB when copyFile and cropSquare
   // return data
   expect(actual.inputCount).toBe(t_inputCount);
   expect(actual.outputCount).toBe(t_outputCount);
-  expect(actual.filesListCopyFailed.length).toBe(2);
+  expect(actual.fileListCopyFailed.length).toBe(2);
   const expectedRecord2 = { hash: "111fakehash1" };
   const expectedRecord3 = { hash: "111fakehash2" };
-  expect(actual.filesListCopyFailed).toEqual(
+  expect(actual.fileListCopyFailed).toEqual(
     expect.arrayContaining([
       expect.objectContaining(expectedRecord2),
       expect.objectContaining(expectedRecord3)
