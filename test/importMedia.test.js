@@ -171,6 +171,16 @@ it("should not import media file when duplicates already exist in the import dir
   expect(actual.filesListDuplicatesImport).toEqual(
     expect.arrayContaining([expect.objectContaining(expectedRecord)])
   );
+  const expectedUniqePath =
+    "/mnt/g/gallery/aadisk-gallery/galeria-saved/2019-05-19 13.29.28-0 - niedzica.jpg";
+  const expectedDupPath =
+    "/mnt/g/gallery/aadisk-gallery/galeria-saved/2019-05-19 13.29.28-1 - niedzica.jpg";
+  const expectedDuplicatesImportPaths = [
+    [expectedRecord.hash, expectedUniqePath, expectedDupPath]
+  ];
+  expect(actual.filesListDuplicatesImportPaths).toEqual(
+    expectedDuplicatesImportPaths
+  );
 });
 
 it("should not import media file when duplikates already exist in the Database", async () => {

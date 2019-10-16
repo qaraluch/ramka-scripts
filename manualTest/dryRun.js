@@ -5,9 +5,9 @@ const options = {
   ramkaHomeDir: "/mnt/h/ramka",
   mediaRepoDir: "data/images",
   mediaImportDir: "/mnt/g/gallery/aadisk-gallery/galeria-saved",
-  dbName: ".DB-ramka",
+  dbName: "../.DB-ramka-test",
   dryRunCopyMedia: true,
-  dryRunDBPut: false
+  dryRunDBPut: true
 };
 
 async function runDryRun() {
@@ -32,6 +32,7 @@ async function runDryRun() {
     console.log(
       "filesListDuplicatesImport ---->",
       filesListDuplicatesImport.length
+      // filesListDuplicatesImport
     );
     console.log("filesListDuplicatesDB ---->", filesListDuplicatesDB.length);
     console.log("filesListNoDates ---->", filesListNoDates.length);

@@ -3,7 +3,8 @@ const {
   readExtraMetadataInfo,
   copyMediaToRamka,
   calculateOutputPaths,
-  filterOutCopyFailed
+  filterOutCopyFailed,
+  listImportedDupPaths
 } = require("./fs");
 const {
   putNewMediaToDB,
@@ -36,6 +37,11 @@ async function importMedia(options) {
       filesList_importUniq,
       filesList_importDups
     ] = findDuplicatesInInportedFiles(filesList_outputPaths);
+
+    const filesList_importDupsPaths = listImportedDupPaths(
+      filesList_importUniq,
+      filesList_importDups
+    );
 
     const dbAllHashes = await pullAllHashesDB(options.dbName);
 
@@ -74,6 +80,7 @@ async function importMedia(options) {
       outputCount,
       filesListExifError: filesList_exifError,
       filesListDuplicatesImport: filesList_importDups,
+      filesListDuplicatesImportPaths: filesList_importDupsPaths,
       filesListDuplicatesDB: filesList_dbDups,
       filesListNoDates: noDateFilesList,
       filesListCopyFailed: filesList_copyFailed,

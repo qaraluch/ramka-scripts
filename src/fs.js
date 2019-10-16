@@ -142,10 +142,30 @@ function filterOutCopyFailed(filesList, copyResults) {
   return filesLists; // [good, failed]
 }
 
+function listImportedDupPaths(filesListUniq, filesListDups) {
+  if (Array.isArray(filesListDups) && !filesListDups.length == 0) {
+    const dupHashes = filesListDups.map(itm => itm.hash);
+    const result = filesListUniq.reduce((acc, cur) => {
+      const hash = cur.hash;
+      const dupIdx = dupHashes.indexOf(hash);
+      if (dupIdx >= 0) {
+        return [
+          ...acc,
+          [hash, cur.importedPath, filesListDups[dupIdx].importedPath]
+        ];
+      } else {
+        return acc;
+      }
+    }, []);
+    return result;
+  }
+}
+
 module.exports = {
   walkInputDir,
   readExtraMetadataInfo,
   calculateOutputPaths,
   copyMediaToRamka,
-  filterOutCopyFailed
+  filterOutCopyFailed,
+  listImportedDupPaths
 };
