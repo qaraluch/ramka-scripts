@@ -1,6 +1,7 @@
 const {
   walkInputDir,
-  readExtraMetadataInfo,
+  readMetadataHash,
+  readMetadataExif,
   copyMediaToRamka,
   calculateOutputPaths,
   filterOutCopyFailed,
@@ -22,13 +23,21 @@ async function importMedia(options) {
     const fileList = await walkInputDir(options.mediaImportDir);
     const inputCount = fileList.length;
 
-    const [
-      fileList_extraInfo,
-      fileList_exifError
-    ] = await readExtraMetadataInfo(fileList);
+    const fileList_extraInfoHash = await readMetadataHash(fileList);
+
+    const dbAllHashes = await pullAllHashesDB(options.dbName);
+
+    const [fileList_dbUniq, fileList_dbDups] = findDuplicatesInDB(
+      fileList_extraInfoHash,
+      dbAllHashes
+    );
+
+    const [fileList_extraInfoExif, fileList_exifError] = await readMetadataExif(
+      fileList_dbUniq
+    );
 
     const [fileList_outputPaths, noDateFilesList] = calculateOutputPaths(
-      fileList_extraInfo,
+      fileList_extraInfoExif,
       options.mediaRepoDir,
       options.ramkaHomeDir
     );
@@ -43,21 +52,19 @@ async function importMedia(options) {
       fileList_importDups
     );
 
-    const dbAllHashes = await pullAllHashesDB(options.dbName);
-
-    const [fileList_dbUniq, fileList_dbDups] = findDuplicatesInDB(
-      fileList_importUniq,
-      dbAllHashes
-    );
-
     let copyMediaResults;
     if (options.dryRunCopyMedia) {
-      copyMediaResults = fileList_dbUniq.map(() => [false, true, false, true]);
+      copyMediaResults = fileList_importUniq.map(() => [
+        false,
+        true,
+        false,
+        true
+      ]);
     } else {
-      copyMediaResults = await copyMediaToRamka(fileList_dbUniq);
+      copyMediaResults = await copyMediaToRamka(fileList_importUniq);
     }
     const [fileList_copyGood, fileList_copyFailed] = filterOutCopyFailed(
-      fileList_dbUniq,
+      fileList_importUniq,
       copyMediaResults
     );
 

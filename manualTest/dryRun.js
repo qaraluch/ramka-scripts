@@ -7,7 +7,7 @@ const options = {
   mediaImportDir: "/mnt/g/gallery/aadisk-gallery/galeria-saved",
   dbName: "../.DB-ramka-test",
   dryRunCopyMedia: true,
-  dryRunDBPut: true
+  dryRunDBPut: false
 };
 
 async function runDryRun() {

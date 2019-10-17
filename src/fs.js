@@ -24,8 +24,14 @@ function creatFilesList(fileInfo) {
   return newFilesList;
 }
 
-async function readExtraMetadataInfo(fileList) {
-  const readInfosThrottled = throttleIt(performReadInfo, 10);
+async function readMetadataHash(fileList) {
+  const readInfosThrottled = throttleIt(performReadInfoHash, 10);
+  const fileList_extraInfo = await readInfosThrottled(fileList);
+  return fileList_extraInfo;
+}
+
+async function readMetadataExif(fileList) {
+  const readInfosThrottled = throttleIt(performReadInfoExif, 10);
   const fileList_extraInfo = await readInfosThrottled(fileList);
   const fileList_exifError = filterExifErrorItems(fileList_extraInfo);
   return [fileList_extraInfo, fileList_exifError];
@@ -36,11 +42,17 @@ function filterExifErrorItems(fileList) {
   return result;
 }
 
-async function performReadInfo(itm) {
+async function performReadInfoHash(itm) {
   const { importedPath: path } = itm;
   const hash = await hashFile(path);
+  const newItm = { hash, ...itm };
+  return newItm;
+}
+
+async function performReadInfoExif(itm) {
+  const { importedPath: path } = itm;
   const exif = await getExif(path);
-  const newItm = { hash, exif, ...itm };
+  const newItm = { exif, ...itm };
   return newItm;
 }
 
@@ -163,7 +175,8 @@ function listImportedDupPaths(fileListUniq, fileListDups) {
 
 module.exports = {
   walkInputDir,
-  readExtraMetadataInfo,
+  readMetadataHash,
+  readMetadataExif,
   calculateOutputPaths,
   copyMediaToRamka,
   filterOutCopyFailed,
