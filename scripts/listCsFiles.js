@@ -1,3 +1,4 @@
+/*eslint no-console: "off"*/
 const { walkDir } = require("../src/walker.js");
 const { writeFile } = require("../src/writeFile");
 
@@ -6,8 +7,9 @@ const outputDirExtended = "../info-extractions/galeria-saved-extended.json";
 const outputDirNames = "../info-extractions/galeria-saved-names.json";
 
 (async () => {
+  console.log("[ ramka scripts] list-cs-files");
   console.log(
-    "[ ramka back - script] About to list all files from CS import dir... "
+    "[ ramka scripts] About to list all files from CS import dir... "
   );
   try {
     const fileListExtended = await walkDir(dirCsImportDir);

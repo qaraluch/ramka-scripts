@@ -1,8 +1,11 @@
 {
-  "name": "ramka-back",
-  "version": "0.0.1",
-  "description": "Back-end for ramka app.",
+  "name": "ramka-scripts",
+  "version": "0.1.0",
+  "description": "ramka-scripts - Backend scripts for ramka project",
   "main": "index.js",
+  "bin": {
+    "ramka-scripts": "src/cli.js"
+  },
   "scripts": {
     "start": "node index.js",
     "test": "./node_modules/.bin/jest",
@@ -34,6 +37,7 @@
     "dist-exiftool": "^10.53.0",
     "jimp": "0.8.2",
     "md5-file": "^4.0.0",
+    "meow": "^5.0.0",
     "node-exiftool": "^2.3.0",
     "pouchdb": "^7.1.1",
     "qm-dedupe": "^2.0.2",
