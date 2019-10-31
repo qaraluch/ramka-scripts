@@ -24,10 +24,22 @@ function creatFilesList(fileInfo) {
   return newFilesList;
 }
 
-async function readMetadataHash(fileList) {
-  const readInfosThrottled = throttleIt(performReadInfoHash, 10);
+async function readMetadataHash(fileList, logProgressBar) {
+  const readInfosThrottled = throttleIt(
+    performReadInfoHash,
+    10,
+    logProgressBar
+  ); //logProgressBar as thisObj - injection
   const fileList_extraInfo = await readInfosThrottled(fileList);
   return fileList_extraInfo;
+}
+
+async function performReadInfoHash(itm) {
+  const { importedPath: path } = itm;
+  const hash = await hashFile(path);
+  const newItm = { hash, ...itm };
+  this.tick(); //logProgressBar execution
+  return newItm;
 }
 
 async function readMetadataExif(fileList) {
@@ -40,13 +52,6 @@ async function readMetadataExif(fileList) {
 function filterExifErrorItems(fileList) {
   const result = fileList.filter(itm => itm.exif.error !== null);
   return result;
-}
-
-async function performReadInfoHash(itm) {
-  const { importedPath: path } = itm;
-  const hash = await hashFile(path);
-  const newItm = { hash, ...itm };
-  return newItm;
 }
 
 async function performReadInfoExif(itm) {
@@ -170,6 +175,8 @@ function listImportedDupPaths(fileListUniq, fileListDups) {
       }
     }, []);
     return result;
+  } else {
+    return [];
   }
 }
 

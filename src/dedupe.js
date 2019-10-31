@@ -24,7 +24,13 @@ const dedupeByFn = (targetArr, testFn) => {
   return [uniqs, dups];
 };
 
-function findDuplicatesInDB(fileList, dbAllHashes) {
+function findDuplicatesInDB(
+  fileList,
+  dbAllHashes,
+  optionsDisableFileLogger,
+  log,
+  logFile
+) {
   const testFn = itm => dbAllHashes.includes(itm.hash);
   const result = dedupeByFn(fileList, testFn);
   return result; // [uniqs, dups]

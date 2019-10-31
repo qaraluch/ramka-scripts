@@ -26,16 +26,21 @@ const options = {
   mediaImportDir: "/mnt/g/gallery/aadisk-gallery/galeria-saved",
   dbName: "../.DB-ramka",
   dryRunCopyMedia: true,
-  dryRunDBPut: false
+  dryRunDBPut: false,
+  loggerOptions: {
+    silent: false,
+    delimiter: " ramka ",
+    disableFileLogs: false,
+    logOutputDir: "../logs",
+    logFilePrefix: "logs-importMedia" // rest of file name: -<time-stamp>.log
+  }
 };
 
 async function runApp(commandObj) {
   const { command } = commandObj;
   try {
     if (command === "import") {
-      const result = await importMedia(options);
-      console.log(result.inputCount);
-      console.log(result.outputCount);
+      await importMedia(options);
     } else {
       console.log("Command not recognized!");
     }

@@ -21,7 +21,40 @@ function* generateId(initialValue = 0) {
   }
 }
 
+function resolveOptions(defaultOptions, ...options) {
+  const optionsMapper = opt =>
+    Object.entries(opt)
+      .filter(([_, value]) => typeof value !== "undefined")
+      .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+  const endOptions = Object.assign(
+    {},
+    defaultOptions,
+    ...options.map(optionsMapper)
+  );
+  return endOptions;
+}
+
+function getDate(passedDate) {
+  const currentDate = new Date();
+  const currentDateMs = currentDate.getTime();
+  const passedDateValue = new Date(passedDate).getTime();
+  const timeZoneOffsetMs = currentDate.getTimezoneOffset() * 60 * 1000;
+  const theDate = new Date(
+    (passedDateValue || currentDateMs) - timeZoneOffsetMs
+  );
+  return theDate.toISOString();
+}
+
+const getFileTimeStamp = passDateValue =>
+  // form: 2018-07-10T09:29:13.636Z -> 2018-07-10_092922
+  getDate(passDateValue)
+    .replace(/T/, "_")
+    .replace(/:/g, "")
+    .replace(/\..+/, "");
+
 module.exports = {
+  resolveOptions,
+  getFileTimeStamp,
   parseCSFileName,
   generateId
 };

@@ -7,7 +7,14 @@ const options = {
   mediaImportDir: "/mnt/g/gallery/aadisk-gallery/galeria-saved",
   dbName: "../.DB-ramka-test",
   dryRunCopyMedia: true,
-  dryRunDBPut: false
+  dryRunDBPut: false,
+  loggerOptions: {
+    silent: false,
+    delimiter: " ramka ",
+    disableFileLogs: true,
+    logOutputDir: "./logs",
+    logFilePrefix: "logs" // rest of file name: -<time-stamp>.log
+  }
 };
 
 async function runDryRun() {

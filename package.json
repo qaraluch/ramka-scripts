@@ -12,7 +12,14 @@
     "test:watch": "./node_modules/.bin/jest --watch",
     "clear": "./node_modules/.bin/rimraf node_modules",
     "debug": "node --inspect-brk index.js",
-    "list-cs-files": "node ./scripts/listCsFiles.js"
+    "list-cs-files": "node ./scripts/listCsFiles.js",
+    "print-log": "./node_modules/.bin/bunyan $(fzf -q \".log$\")",
+    "print-log-db-duplicates": "jq '.\"db-duplicatesj\"[]? | .fileMetadata.name' < $(fzf -q \".log$\")",
+    "print-log-walked-files": "jq '.\"walked-files\"[]?' < $(fzf -q \".log$\")",
+    "print-log-no-date-files": "jq '.\"no-date-files\"[]?' < $(fzf -q \".log$\")",
+    "print-log-import-duplicates": "jq '.\"import-duplicates\"[]?' < $(fzf -q \".log$\")",
+    "print-log-copy-failed": "jq '.\"copy-failed\"[]? | .fileMetadata.name' < $(fzf -q \".log$\")",
+    "print-log-db-confirmation-failed": "jq '.\"db-confirmation-failed\"[]?' < $(fzf -q \".log$\")"
   },
   "repository": {
     "type": "git",
@@ -33,15 +40,21 @@
     "rimraf": "^3.0.0"
   },
   "dependencies": {
+    "bunyan": "^1.8.12",
+    "chalk": "^2.4.2",
     "cp-file": "7.0.0",
     "dist-exiftool": "^10.53.0",
+    "figlet": "^1.2.4",
     "jimp": "0.8.2",
+    "make-dir": "^3.0.0",
     "md5-file": "^4.0.0",
     "meow": "^5.0.0",
     "node-exiftool": "^2.3.0",
     "pouchdb": "^7.1.1",
+    "progress": "^2.0.3",
     "qm-dedupe": "^2.0.2",
     "qm-walk": "^2.2.5",
+    "signale": "^1.4.0",
     "throat": "^5.0.0"
   }
 }

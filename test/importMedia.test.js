@@ -7,7 +7,14 @@ const options = {
   mediaImportDir: "/mnt/g/gallery/aadisk-gallery/galeria-saved",
   dbName: ".DB-ramka",
   dryRunCopyMedia: false,
-  dryRunDBPut: false
+  dryRunDBPut: false,
+  loggerOptions: {
+    silent: true,
+    delimiter: " ramka ",
+    disableFileLogs: true,
+    logOutputDir: "./logs",
+    logFilePrefix: "logs" // rest of file name: -<time-stamp>.log
+  }
 };
 
 // mocked fns and its utils:
@@ -221,7 +228,7 @@ it("should not import media file when duplikates already exist in the Database",
   );
 });
 
-it("should not deal with media file when can not parse year from its filename date", async () => {
+it("should deal with media file when can not parse year from its filename date", async () => {
   //Arrange
   const t_inputCount = 2;
   const t_outputCount = 2;
