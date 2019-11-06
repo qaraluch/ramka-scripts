@@ -13,6 +13,14 @@ async function walkInputDir(optionsMediaImportDir) {
   return fileInfoFileMetadata;
 }
 
+function limitImportMedia(fileList, limit) {
+  if (limit) {
+    return fileList.slice(0, limit);
+  } else {
+    return fileList;
+  }
+}
+
 function creatFilesList(fileInfo) {
   const newFilesList = fileInfo.map(itm => {
     let newItm = {
@@ -182,6 +190,7 @@ function listImportedDupPaths(fileListUniq, fileListDups) {
 
 module.exports = {
   walkInputDir,
+  limitImportMedia,
   readMetadataHash,
   readMetadataExif,
   calculateOutputPaths,

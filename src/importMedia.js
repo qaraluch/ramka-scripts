@@ -1,6 +1,7 @@
 const { initLogger, initProgressBarBasic } = require("./logger");
 const {
   walkInputDir,
+  limitImportMedia,
   readMetadataHash,
   readMetadataExif,
   copyMediaToRamka,
@@ -25,7 +26,8 @@ async function importMedia(options) {
   log.welcome();
   try {
     log.readFilesIn(options.mediaImportDir);
-    const fileList = await walkInputDir(options.mediaImportDir);
+    const fileListAll = await walkInputDir(options.mediaImportDir);
+    const fileList = limitImportMedia(fileListAll, options.limitImport);
     const inputCount = fileList.length;
     logWalkedFiles(inputCount, fileList, log, logFile);
 
@@ -44,8 +46,13 @@ async function importMedia(options) {
       log.it("Finished hash calculating");
     }
 
-    const dbAllHashes = await pullAllHashesDB(options.dbName);
-    log.it("Pulled hashes from data base to compare");
+    let dbAllHashes;
+    if (options.dryRunDBPut) {
+      dbAllHashes = [];
+    } else {
+      dbAllHashes = await pullAllHashesDB(options.dbName);
+      log.it("Pulled hashes from data base to compare");
+    }
 
     const [fileList_dbUniq, fileList_dbDups] = findDuplicatesInDB(
       fileList_extraInfoHash,

@@ -27,6 +27,7 @@ const options = {
   dbName: "../.DB-ramka",
   dryRunCopyMedia: true,
   dryRunDBPut: false,
+  limitImport: false,
   loggerOptions: {
     silent: false,
     delimiter: " ramka ",

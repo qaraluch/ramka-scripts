@@ -28,10 +28,10 @@
   "author": "qaraluch",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^6.4.0",
-    "eslint-config-prettier": "^6.3.0",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jest": "^22.17.0",
+    "eslint-plugin-jest": "^23.0.2",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-promise": "^4.2.1",
@@ -45,7 +45,7 @@
     "cp-file": "7.0.0",
     "dist-exiftool": "^10.53.0",
     "figlet": "^1.2.4",
-    "jimp": "0.8.2",
+    "jimp": "0.8.5",
     "make-dir": "^3.0.0",
     "md5-file": "^4.0.0",
     "meow": "^5.0.0",
@@ -53,7 +53,7 @@
     "pouchdb": "^7.1.1",
     "progress": "^2.0.3",
     "qm-dedupe": "^2.0.2",
-    "qm-walk": "^2.2.5",
+    "qm-walk": "^2.2.6",
     "signale": "^1.4.0",
     "throat": "^5.0.0"
   }

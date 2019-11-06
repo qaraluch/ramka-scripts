@@ -7,11 +7,12 @@ const options = {
   mediaImportDir: "/mnt/g/gallery/aadisk-gallery/galeria-saved",
   dbName: "../.DB-ramka-test",
   dryRunCopyMedia: true,
-  dryRunDBPut: false,
+  dryRunDBPut: true,
+  limitImport: 10,
   loggerOptions: {
     silent: false,
     delimiter: " ramka ",
-    disableFileLogs: true,
+    disableFileLogs: false,
     logOutputDir: "./logs",
     logFilePrefix: "logs" // rest of file name: -<time-stamp>.log
   }
