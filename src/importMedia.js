@@ -31,7 +31,7 @@ async function importMedia(options) {
     const inputCount = fileList.length;
     logWalkedFiles(inputCount, fileList, log, logFile);
 
-    log.it("About to calculate hash for files...");
+    log.it("About to calculate hash of files...");
     log.time("[ hashing ]");
     const logHashProgressBar = initProgressBarBasic({
       total: fileList.length,
@@ -97,7 +97,20 @@ async function importMedia(options) {
         true
       ]);
     } else {
-      copyMediaResults = await copyMediaToRamka(fileList_importUniq);
+      log.it("About to copy of files to the ramka...");
+      log.time("[ copy ]");
+      const logCopyProgressBar = initProgressBarBasic({
+        total: fileList_importUniq.length,
+        msg: "copy"
+      });
+      copyMediaResults = await copyMediaToRamka(
+        fileList_importUniq,
+        logCopyProgressBar
+      );
+      if (logHashProgressBar.complete) {
+        log.timeEnd("[ copy ]");
+        log.it("Finished copy of media files");
+      }
     }
     const [fileList_copyGood, fileList_copyFailed] = filterOutCopyFailed(
       fileList_importUniq,

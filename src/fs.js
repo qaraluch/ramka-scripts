@@ -107,9 +107,9 @@ function calculateOutputMainFileName(hash, extension) {
   return { outputFileName, outputFileNameSquare };
 }
 
-async function copyMediaToRamka(fileList) {
-  const readInfosThrottled = throttleIt(performCopyMedia, 10);
-  const results = await readInfosThrottled(fileList);
+async function copyMediaToRamka(fileList, logProgressBar) {
+  const copyMediaThrottled = throttleIt(performCopyMedia, 10, logProgressBar);
+  const results = await copyMediaThrottled(fileList);
   return results;
 }
 
@@ -139,6 +139,7 @@ async function performCopyMedia(itm) {
     source,
     destinationSquare
   );
+  this.tick(); //logProgressBar execution
   return [errorCp, resultCp, errorCrop, resultCrop];
 }
 

@@ -8,7 +8,7 @@ const options = {
   dbName: "../manual/.DB-ramka-manual",
   dryRunCopyMedia: false,
   dryRunDBPut: false,
-  limitImport: 10,
+  limitImport: 200,
   loggerOptions: {
     silent: false,
     delimiter: " ramka ",
