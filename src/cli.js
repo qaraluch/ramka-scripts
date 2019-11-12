@@ -2,7 +2,14 @@
 const { runByCLI } = require("./index.js");
 const meow = require("meow");
 
-const options = {};
+const options = {
+  flags: {
+    limit: {
+      type: "string",
+      alias: "l"
+    }
+  }
+};
 
 const args = meow(
   `
@@ -14,12 +21,21 @@ const args = meow(
 
     1. import - imports media files to the ramka's database.
 
+       -l, --limit [number]        Limit read files number to import.
+                                   The newest files is read in the first place.
+                                   When the number is not passed it is 500 by default.
 
-    Standalone scripts:
+    Standalone npm scripts:
     WARN: execute from ramka-scripts home dir!
 
-    $ npm run list-cs-files - lists all files from CS import dir.
-
+    $ npm run list-cs-files                  - lists all files from CS import dir.
+    $ npm run print-log                      - print info from log files of import command (need fzf)
+    $ npm run print-log-db-duplicates
+    $ npm run print-log-walked-files
+    $ npm run print-log-no-date-files
+    $ npm run print-log-import-duplicates
+    $ npm run print-log-copy-failed
+    $ npm run print-log-db-confirmation-failed
 
   Global options (overrides above)
     --help

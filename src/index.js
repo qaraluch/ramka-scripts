@@ -1,26 +1,9 @@
+/* eslint-disable no-console */
 const { importMedia } = require("./importMedia");
-
-function runByCLI(args) {
-  const cliCommand = args.input[0];
-  const cliPositionalArgs = getPositionalArgs(args.input);
-  const cliFlags = args.flags;
-  const commandObj = Object.assign({}, { command: cliCommand }, cliFlags, {
-    positional: cliPositionalArgs
-  });
-  if (cliCommand === undefined) {
-    args.showHelp();
-  } else {
-    runApp(commandObj);
-  }
-}
-
-function getPositionalArgs(input) {
-  const positional = input.slice(1);
-  return positional.length == 0 ? undefined : positional;
-}
+const { resolveOptions } = require("./utils");
 
 //TODO: add to config.js
-const options = {
+const optionsDefault = {
   ramkaHomeDir: "/mnt/h/ramka",
   mediaRepoDir: "data/images",
   mediaImportDir: "/mnt/g/gallery/aadisk-gallery/galeria-saved",
@@ -37,8 +20,47 @@ const options = {
   }
 };
 
+function runByCLI(args) {
+  const cliCommand = args.input[0];
+  const cliPositionalArgs = getPositionalArgs(args.input);
+  const cliFlags = args.flags;
+
+  let limitFlag;
+  if (cliFlags.limit !== undefined) {
+    limitFlag =
+      cliFlags.limit === ""
+        ? 500 // default --limit cli flag value
+        : parseInt(cliFlags.limit);
+  }
+
+  const finalOptions = resolveOptions(optionsDefault, {
+    limitImport: limitFlag
+  });
+
+  const commandObj = Object.assign(
+    {},
+    { command: cliCommand },
+    { options: finalOptions },
+    cliFlags,
+    {
+      positional: cliPositionalArgs
+    }
+  );
+
+  if (cliCommand === undefined) {
+    args.showHelp();
+  } else {
+    runApp(commandObj);
+  }
+}
+
+function getPositionalArgs(input) {
+  const positional = input.slice(1);
+  return positional.length == 0 ? undefined : positional;
+}
+
 async function runApp(commandObj) {
-  const { command } = commandObj;
+  const { command, options } = commandObj;
   try {
     if (command === "import") {
       await importMedia(options);

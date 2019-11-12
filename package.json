@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node index.js",
+    "cli": "node src/cli.js",
     "test": "./node_modules/.bin/jest",
     "test:watch": "./node_modules/.bin/jest --watch",
     "clear": "./node_modules/.bin/rimraf node_modules",
