@@ -20,7 +20,8 @@ async function putNewMediaToDB(mediaList, dbName) {
 }
 
 function prepareDBRecord(fileList) {
-  const DBrecords = fileList.map(DBrecordsMapper);
+  const currentDateObj = { date: Date.now() };
+  const DBrecords = fileList.map(DBrecordsMapper, currentDateObj);
   return DBrecords;
 }
 
@@ -30,6 +31,7 @@ function DBrecordsMapper(itm) {
     fileMetadata,
     exif,
     importedPath,
+    parsedFileName,
     outputDir,
     outputYear,
     outputFileName,
@@ -41,6 +43,8 @@ function DBrecordsMapper(itm) {
     fileMetadata,
     exif: exif.data,
     importedPath,
+    importedDate: this.date, //access point of currentDateObj
+    parsedFileName,
     source: `${path.join(outputDir, outputYear, outputFileName)}`,
     sourceSquare: `${path.join(outputDir, outputYear, outputFileNameSquare)}`
   };

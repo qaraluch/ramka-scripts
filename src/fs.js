@@ -82,9 +82,9 @@ function calculateOutputPaths(
       fileMetadata: { name: fileName, ext: extension },
       hash
     } = itm;
-    const { year: fileNameYear } = parseCSFileName(fileName);
+    const parsedFileName = parseCSFileName(fileName);
     itm.outputDir = optionsMediaRepoDir;
-    itm.outputYear = fileNameYear || noDataDirName;
+    itm.outputYear = parsedFileName.year || noDataDirName;
     const {
       outputFileName,
       outputFileNameSquare
@@ -92,6 +92,7 @@ function calculateOutputPaths(
     itm.outputFileNameSquare = outputFileNameSquare;
     itm.outputFileName = outputFileName;
     itm.outputHomeDir = optionsRamkaHomeDir;
+    itm.parsedFileName = parsedFileName;
     return itm;
   }
 
