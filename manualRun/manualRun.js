@@ -3,18 +3,18 @@ const { importMedia } = require("../src/importMedia");
 //TODO: add to config.js
 const options = {
   ramkaHomeDir: "/mnt/h/ramka",
-  mediaRepoDir: "data/images",
+  mediaRepoDir: "manual/images",
   mediaImportDir: "/mnt/g/gallery/aadisk-gallery/galeria-saved",
-  dbName: "../.DB-ramka-test",
-  dryRunCopyMedia: true,
-  dryRunDBPut: true,
+  dbName: "../manual/.DB-ramka-manual",
+  dryRunCopyMedia: false,
+  dryRunDBPut: false,
   limitImport: 10,
   loggerOptions: {
     silent: false,
     delimiter: " ramka ",
     disableFileLogs: false,
-    logOutputDir: "./logs",
-    logFilePrefix: "logs" // rest of file name: -<time-stamp>.log
+    logOutputDir: "../manual/logs",
+    logFilePrefix: "logs-manual" // rest of file name: -<time-stamp>.log
   }
 };
 
@@ -45,7 +45,7 @@ async function runDryRun() {
     console.log("fileListDuplicatesDB ---->", fileListDuplicatesDB.length);
     console.log("fileListNoDates ---->", fileListNoDates.length);
     console.log("fileListCopyFailed ---->", fileListCopyFailed.length);
-    console.log("confirmationso ---->", confirmations.length);
+    console.log("confirmations ---->", confirmations.length);
     console.log("confirmationsFailed ---->", confirmationsFailed.length);
   } catch (error) {
     throw new Error(error);
