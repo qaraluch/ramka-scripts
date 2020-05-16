@@ -1,4 +1,4 @@
-const md5File = require("md5-file/promise");
+const md5File = require("md5-file");
 
 async function hashFile(path) {
   try {
