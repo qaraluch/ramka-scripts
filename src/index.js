@@ -16,8 +16,8 @@ const optionsDefault = {
     delimiter: " ramka ",
     disableFileLogs: false,
     logOutputDir: "../logs",
-    logFilePrefix: "logs-importMedia" // rest of file name: -<time-stamp>.log
-  }
+    logFilePrefix: "logs-importMedia", // rest of file name: -<time-stamp>.log
+  },
 };
 
 function runByCLI(args) {
@@ -34,7 +34,7 @@ function runByCLI(args) {
   }
 
   const finalOptions = resolveOptions(optionsDefault, {
-    limitImport: limitFlag
+    limitImport: limitFlag,
   });
 
   const commandObj = Object.assign(
@@ -43,7 +43,7 @@ function runByCLI(args) {
     { options: finalOptions },
     cliFlags,
     {
-      positional: cliPositionalArgs
+      positional: cliPositionalArgs,
     }
   );
 
@@ -73,5 +73,5 @@ async function runApp(commandObj) {
 }
 
 module.exports = {
-  runByCLI
+  runByCLI,
 };

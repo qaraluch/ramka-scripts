@@ -13,7 +13,7 @@ const outputDirNames = "../info-extractions/galeria-saved-names.json";
   );
   try {
     const fileListExtended = await walkDir(dirCsImportDir);
-    const fileListNames = fileListExtended.map(itm => itm.crown);
+    const fileListNames = fileListExtended.map((itm) => itm.crown);
 
     await writeFile(
       outputDirExtended,

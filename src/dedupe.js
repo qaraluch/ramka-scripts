@@ -1,7 +1,7 @@
 const { dedupeInit } = require("qm-dedupe");
 
 const hasher = JSON.stringify;
-const compareByProperty = item => item.hash;
+const compareByProperty = (item) => item.hash;
 
 const dedupe = dedupeInit({ hasher, compareByProperty });
 
@@ -31,12 +31,12 @@ function findDuplicatesInDB(
   log,
   logFile
 ) {
-  const testFn = itm => dbAllHashes.includes(itm.hash);
+  const testFn = (itm) => dbAllHashes.includes(itm.hash);
   const result = dedupeByFn(fileList, testFn);
   return result; // [uniqs, dups]
 }
 
 module.exports = {
   findDuplicatesInInportedFiles,
-  findDuplicatesInDB
+  findDuplicatesInDB,
 };

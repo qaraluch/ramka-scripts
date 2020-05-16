@@ -10,7 +10,7 @@ async function walkDir(path) {
     const fileExtended = walkOutputExt
       .getExtendedInfo()
       .match(glob, globOptions);
-    const fileList = fileExtended.map(item => item.isFile && item);
+    const fileList = fileExtended.map((item) => item.isFile && item);
     return fileList;
   } catch (error) {
     throw new Error(
@@ -20,5 +20,5 @@ async function walkDir(path) {
 }
 
 module.exports = {
-  walkDir
+  walkDir,
 };

@@ -7,17 +7,17 @@ const {
   copyMediaToRamka,
   calculateOutputPaths,
   filterOutCopyFailed,
-  listImportedDupPaths
+  listImportedDupPaths,
 } = require("./fs");
 const {
   putNewMediaToDB,
   prepareDBRecord,
   pullAllHashesDB,
-  filterConfirmationFailed
+  filterConfirmationFailed,
 } = require("./db");
 const {
   findDuplicatesInInportedFiles,
-  findDuplicatesInDB
+  findDuplicatesInDB,
 } = require("./dedupe.js");
 
 async function importMedia(options) {
@@ -35,7 +35,7 @@ async function importMedia(options) {
     log.time("[ hashing ]");
     const logHashProgressBar = initProgressBarBasic({
       total: fileList.length,
-      msg: "hashing"
+      msg: "hashing",
     });
     const fileList_extraInfoHash = await readMetadataHash(
       fileList,
@@ -74,7 +74,7 @@ async function importMedia(options) {
 
     const [
       fileList_importUniq,
-      fileList_importDups
+      fileList_importDups,
     ] = findDuplicatesInInportedFiles(fileList_outputPaths);
 
     const fileList_importDupsPaths = listImportedDupPaths(
@@ -94,14 +94,14 @@ async function importMedia(options) {
         false,
         true,
         false,
-        true
+        true,
       ]);
     } else {
       log.it("About to copy of files to the ramka...");
       log.time("[ copy ]");
       const logCopyProgressBar = initProgressBarBasic({
         total: fileList_importUniq.length,
-        msg: "copy"
+        msg: "copy",
       });
       copyMediaResults = await copyMediaToRamka(
         fileList_importUniq,
@@ -149,7 +149,7 @@ async function importMedia(options) {
       fileListNoDates: noDateFilesList,
       fileListCopyFailed: fileList_copyFailed,
       confirmations,
-      confirmationsFailed
+      confirmationsFailed,
     };
     log.done();
     return result;
@@ -218,11 +218,11 @@ function logConfirmationFailed(
 }
 
 function logWalkedFiles(inputCount, fileList, log, logFile) {
-  const fileListImportedPath = fileList.map(itm => itm.importedPath);
+  const fileListImportedPath = fileList.map((itm) => itm.importedPath);
   log.readFilesCount(inputCount);
   logFile.it("List of walked files", "walked-files", fileListImportedPath);
 }
 
 module.exports = {
-  importMedia
+  importMedia,
 };

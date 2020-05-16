@@ -4,7 +4,7 @@ const copyFileMockImplThrow = (source, destination) => [
   new Error(
     `copyFile.js - Sth. went wrong: with file ${source} cp to ${destination} ...\n `
   ),
-  false
+  false,
 ];
 
 const cropSquareImageMockImplNormal = () => [false, true];
@@ -13,12 +13,12 @@ const cropSquareImageMockImplThrow = (file, outputPath) => [
   new Error(
     `cropSquareImage.js - Sth. went wrong: with ${file} to ${outputPath}...\n `
   ),
-  false
+  false,
 ];
 
 module.exports = {
   copyFileMockImplNormal,
   copyFileMockImplThrow,
   cropSquareImageMockImplNormal,
-  cropSquareImageMockImplThrow
+  cropSquareImageMockImplThrow,
 };

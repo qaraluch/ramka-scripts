@@ -8,14 +8,14 @@ const fakeFileList = [
       "/mnt/g/gallery/aadisk-gallery/galeria-saved/2019-05-19 13.29.28-0 - niedzica.jpg",
     fileMetadata: {
       name: "2019-05-19 13.29.28-0 - niedzica.jpg",
-      ext: ".jpg"
-    }
-  }
+      ext: ".jpg",
+    },
+  },
 ];
 
 const options = {
   ramkaHomeDir: "/mnt/h/ramka",
-  mediaRepoDir: "data/images"
+  mediaRepoDir: "data/images",
 };
 
 it("calculateOutputPaths() - should calculate file name and output file path imported to the system ", () => {
@@ -38,17 +38,17 @@ it("calculateOutputPaths() - should calculate file name and output file path imp
 
 const fileList = [
   {
-    name: "2019-05-19 13.29.28-0 - niedzica.jpg"
+    name: "2019-05-19 13.29.28-0 - niedzica.jpg",
   },
   {
-    name: "2019-05-19 13.29.28-1 - niedzica.jpg"
+    name: "2019-05-19 13.29.28-1 - niedzica.jpg",
   },
   {
-    name: "2019-05-19 13.29.28-2 - niedzica.jpg"
+    name: "2019-05-19 13.29.28-2 - niedzica.jpg",
   },
   {
-    name: "2019-05-19 13.29.28-3 - niedzica.jpg"
-  }
+    name: "2019-05-19 13.29.28-3 - niedzica.jpg",
+  },
 ];
 
 const fileListResultGood = [
@@ -57,8 +57,8 @@ const fileListResultGood = [
     copySuccess: true,
     cropSuccess: true,
     copyErrorMsg: false,
-    cropErrorMsg: false
-  }
+    cropErrorMsg: false,
+  },
 ];
 
 const fileListResultFailed = [
@@ -67,22 +67,22 @@ const fileListResultFailed = [
     copySuccess: false,
     cropSuccess: true,
     copyErrorMsg: "Error: copy failed",
-    cropErrorMsg: false
+    cropErrorMsg: false,
   },
   {
     name: "2019-05-19 13.29.28-2 - niedzica.jpg",
     copySuccess: true,
     cropSuccess: false,
     copyErrorMsg: false,
-    cropErrorMsg: "Error: crop failed"
+    cropErrorMsg: "Error: crop failed",
   },
   {
     name: "2019-05-19 13.29.28-3 - niedzica.jpg",
     copySuccess: false,
     cropSuccess: false,
     copyErrorMsg: "Error: copy failed",
-    cropErrorMsg: "Error: crop failed"
-  }
+    cropErrorMsg: "Error: crop failed",
+  },
 ];
 
 const copyResults = [
@@ -90,7 +90,7 @@ const copyResults = [
   [false, true, false, true],
   ["Error: copy failed", false, false, true],
   [false, true, "Error: crop failed", false],
-  ["Error: copy failed", false, "Error: crop failed", false]
+  ["Error: copy failed", false, "Error: crop failed", false],
 ];
 
 it("filterOutCopyFailed() - should filter out fileList array based on result of copy and crop operation", () => {

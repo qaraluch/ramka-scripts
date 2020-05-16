@@ -58,10 +58,10 @@ const jpg_exif = {
       SubSecModifyDate: "2019:05:19 13:29:28.003945",
       ThumbnailImage: "(Binary data 9386 bytes, use -b option to extract)",
       FocalLength35efl: "4.0 mm",
-      LightValue: 12.9
-    }
+      LightValue: 12.9,
+    },
   ],
-  error: null
+  error: null,
 };
 
 const png_exif = {
@@ -78,10 +78,10 @@ const png_exif = {
       Filter: "Adaptive",
       Interlace: "Noninterlaced",
       ImageSize: "672x1280",
-      Megapixels: 0.86
-    }
+      Megapixels: 0.86,
+    },
   ],
-  error: null
+  error: null,
 };
 
 const gif_exif = {
@@ -101,15 +101,15 @@ const gif_exif = {
       FrameCount: 38,
       Duration: "6.96 s",
       ImageSize: "786x536",
-      Megapixels: 0.421
-    }
+      Megapixels: 0.421,
+    },
   ],
-  error: null
+  error: null,
 };
 
 const dummy = {
   data: [],
-  error: null
+  error: null,
 };
 
 function getExifMockData_jpg() {
@@ -132,5 +132,5 @@ module.exports = {
   getExifMockData_jpg,
   getExifMockData_png,
   getExifMockData_gif,
-  getExifMockDummy
+  getExifMockDummy,
 };

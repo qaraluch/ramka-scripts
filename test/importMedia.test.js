@@ -14,39 +14,39 @@ const options = {
     delimiter: " ramka ",
     disableFileLogs: true,
     logOutputDir: "./logs",
-    logFilePrefix: "logs" // rest of file name: -<time-stamp>.log
-  }
+    logFilePrefix: "logs", // rest of file name: -<time-stamp>.log
+  },
 };
 
 // mocked fns and its utils:
 const {
   getCSDifferentFiles,
   getCSSameFiles,
-  getCSFilesWithNoDate
+  getCSFilesWithNoDate,
 } = require("./walkerMock");
 const {
   getHashFileDifferent,
   getHashFileSame,
-  resetHashCounter
+  resetHashCounter,
 } = require("./hashFileMock");
 const {
   getExifMockData_jpg,
   getExifMockData_png,
   getExifMockData_gif,
-  getExifMockDummy
+  getExifMockDummy,
 } = require("./getExifMock");
 const {
   returnDbAllConfirmationObjs,
   returnDbLastConflictObj, // for now not need this
   returnDbNoHashes,
-  returnDbOneHash
+  returnDbOneHash,
 } = require("./dbMock");
 
 const {
   copyFileMockImplNormal,
   copyFileMockImplThrow,
   cropSquareImageMockImplNormal,
-  cropSquareImageMockImplThrow
+  cropSquareImageMockImplThrow,
 } = require("./fsMock");
 
 const { walkDir } = require("../src/walker");
@@ -67,7 +67,7 @@ jest.mock("../src/db", () => {
   return {
     ...jest.requireActual("../src/db"),
     putNewMediaToDB: jest.fn(),
-    pullAllHashesDB: jest.fn()
+    pullAllHashesDB: jest.fn(),
   };
 });
 
@@ -126,11 +126,11 @@ it("should import new file to the system", async () => {
     hash: t_Id,
     exif: [
       expect.objectContaining({
-        SourceFile: t_inputPath
-      })
+        SourceFile: t_inputPath,
+      }),
     ],
     fileMetadata: expect.objectContaining({ isFile: true }),
-    source: t_dbSourceImagePath
+    source: t_dbSourceImagePath,
   };
   expect(putNewMediaToDB).toHaveBeenCalledTimes(1); // bulkDocs
   expect(putNewMediaToDB).toHaveBeenLastCalledWith(
@@ -184,7 +184,7 @@ it("should not import media file when duplicates already exist in the import dir
   const expectedDupPath =
     "/mnt/g/gallery/aadisk-gallery/galeria-saved/2019-05-19 13.29.28-1 - niedzica.jpg";
   const expectedDuplicatesImportPaths = [
-    [expectedRecord.hash, expectedUniqePath, expectedDupPath]
+    [expectedRecord.hash, expectedUniqePath, expectedDupPath],
   ];
   expect(actual.fileListDuplicatesImportPaths).toEqual(
     expectedDuplicatesImportPaths
@@ -307,7 +307,7 @@ it("should filter out media item from putting to DB when copyFile and cropSquare
   expect(actual.fileListCopyFailed).toEqual(
     expect.arrayContaining([
       expect.objectContaining(expectedRecord2),
-      expect.objectContaining(expectedRecord3)
+      expect.objectContaining(expectedRecord3),
     ])
   );
 });

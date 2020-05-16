@@ -17,5 +17,5 @@ function resetHashCounter() {
 module.exports = {
   getHashFileDifferent,
   getHashFileSame,
-  resetHashCounter
+  resetHashCounter,
 };

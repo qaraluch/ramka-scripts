@@ -16,5 +16,5 @@ async function cropSquareImage(file, outputPath) {
 }
 
 module.exports = {
-  cropSquareImage
+  cropSquareImage,
 };

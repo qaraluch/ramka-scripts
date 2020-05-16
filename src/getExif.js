@@ -17,5 +17,5 @@ async function getExif(path) {
 }
 
 module.exports = {
-  getExif
+  getExif,
 };

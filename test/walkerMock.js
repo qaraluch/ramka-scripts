@@ -26,14 +26,14 @@ const jpg = {
     isCharacterDevice: false,
     isSymbolicLink: false,
     isFIFO: false,
-    isSocket: false
+    isSocket: false,
   },
   cwd: "/mnt/g/gallery/aadisk-gallery/galeria-saved",
   crown: "/2019-05-19 13.29.28-0 - niedzica.jpg",
   parent: "galeria-saved",
   isFile: true,
   name: "2019-05-19 13.29.28-0 - niedzica.jpg",
-  ext: ".jpg"
+  ext: ".jpg",
 };
 
 const jpgSame = {
@@ -65,14 +65,14 @@ const jpgSame = {
     isCharacterDevice: false,
     isSymbolicLink: false,
     isFIFO: false,
-    isSocket: false
+    isSocket: false,
   },
   cwd: "/mnt/g/gallery/aadisk-gallery/galeria-saved",
   crown: "/2019-05-19 13.29.28-1 - niedzica.jpg",
   parent: "galeria-saved",
   isFile: true,
   name: "2019-05-19 13.29.28-1 - niedzica.jpg",
-  ext: ".jpg"
+  ext: ".jpg",
 };
 
 const jpgNoDate = {
@@ -83,7 +83,7 @@ const jpgNoDate = {
   parent: "galeria-saved",
   isFile: true,
   name: "1990 - jakas fotka.jpg",
-  ext: ".jpg"
+  ext: ".jpg",
 };
 
 const png = {
@@ -114,14 +114,14 @@ const png = {
     isCharacterDevice: false,
     isSymbolicLink: false,
     isFIFO: false,
-    isSocket: false
+    isSocket: false,
   },
   cwd: "/mnt/g/gallery/aadisk-gallery/galeria-saved",
   crown: "/2019-04-21 13.05.05-0 - wielkanoc.png",
   parent: "galeria-saved",
   isFile: true,
   name: "2019-04-21 13.05.05-0 - wielkanoc.png",
-  ext: ".png"
+  ext: ".png",
 };
 
 const gif = {
@@ -152,14 +152,14 @@ const gif = {
     isCharacterDevice: false,
     isSymbolicLink: false,
     isFIFO: false,
-    isSocket: false
+    isSocket: false,
   },
   cwd: "/mnt/g/gallery/aadisk-gallery/galeria-saved",
   crown: "/2018-01-18 10.10.10-0 - gif - qt-fotomgmt.gif",
   parent: "galeria-saved",
   isFile: true,
   name: "2018-01-18 10.10.10-0 - gif - qt-fotomgmt.gif",
-  ext: ".gif"
+  ext: ".gif",
 };
 
 function getCSDifferentFiles() {
@@ -177,5 +177,5 @@ function getCSFilesWithNoDate() {
 module.exports = {
   getCSDifferentFiles,
   getCSSameFiles,
-  getCSFilesWithNoDate
+  getCSFilesWithNoDate,
 };

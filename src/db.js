@@ -35,7 +35,7 @@ function DBrecordsMapper(itm) {
     outputDir,
     outputYear,
     outputFileName,
-    outputFileNameSquare
+    outputFileNameSquare,
   } = itm;
   const DBrecord = {
     _id: hash,
@@ -46,7 +46,7 @@ function DBrecordsMapper(itm) {
     importedDate: this.date, //access point of currentDateObj
     parsedFileName,
     source: `${path.join(outputDir, outputYear, outputFileName)}`,
-    sourceSquare: `${path.join(outputDir, outputYear, outputFileNameSquare)}`
+    sourceSquare: `${path.join(outputDir, outputYear, outputFileNameSquare)}`,
   };
   return DBrecord;
 }
@@ -55,7 +55,7 @@ async function pullAllHashesDB(dbName) {
   let db = initDB(dbName);
   try {
     const allDocs = await db.allDocs({ include_docs: true });
-    const allHashes = allDocs.rows.map(itm => itm.doc.hash);
+    const allHashes = allDocs.rows.map((itm) => itm.doc.hash);
     return allHashes;
   } catch (error) {
     throw new Error(
@@ -65,7 +65,7 @@ async function pullAllHashesDB(dbName) {
 }
 
 function filterConfirmationFailed(confirmations) {
-  return confirmations.filter(itm => itm.error === true);
+  return confirmations.filter((itm) => itm.error === true);
 }
 
 module.exports = {
@@ -73,5 +73,5 @@ module.exports = {
   prepareDBRecord,
   putNewMediaToDB,
   pullAllHashesDB,
-  filterConfirmationFailed
+  filterConfirmationFailed,
 };

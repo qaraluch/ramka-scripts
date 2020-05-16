@@ -22,7 +22,7 @@ function* generateId(initialValue = 0) {
 }
 
 function resolveOptions(defaultOptions, ...options) {
-  const optionsMapper = opt =>
+  const optionsMapper = (opt) =>
     Object.entries(opt)
       .filter(([_, value]) => typeof value !== "undefined")
       .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
@@ -45,7 +45,7 @@ function getDate(passedDate) {
   return theDate.toISOString();
 }
 
-const getFileTimeStamp = passDateValue =>
+const getFileTimeStamp = (passDateValue) =>
   // form: 2018-07-10T09:29:13.636Z -> 2018-07-10_092922
   getDate(passDateValue)
     .replace(/T/, "_")
@@ -56,5 +56,5 @@ module.exports = {
   resolveOptions,
   getFileTimeStamp,
   parseCSFileName,
-  generateId
+  generateId,
 };

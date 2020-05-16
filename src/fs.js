@@ -22,10 +22,10 @@ function limitImportMedia(fileList, limit) {
 }
 
 function creatFilesList(fileInfo) {
-  const newFilesList = fileInfo.map(itm => {
+  const newFilesList = fileInfo.map((itm) => {
     let newItm = {
       importedPath: itm.path,
-      fileMetadata: itm
+      fileMetadata: itm,
     };
     return newItm;
   });
@@ -58,7 +58,7 @@ async function readMetadataExif(fileList) {
 }
 
 function filterExifErrorItems(fileList) {
-  const result = fileList.filter(itm => itm.exif.error !== null);
+  const result = fileList.filter((itm) => itm.exif.error !== null);
   return result;
 }
 
@@ -70,7 +70,7 @@ async function performReadInfoExif(itm) {
 }
 
 const noDataDirName = "beforeTime";
-const noDateFilter = itm => itm.outputYear === noDataDirName;
+const noDateFilter = (itm) => itm.outputYear === noDataDirName;
 
 function calculateOutputPaths(
   fileList,
@@ -80,14 +80,14 @@ function calculateOutputPaths(
   function outputPathsMapper(itm) {
     const {
       fileMetadata: { name: fileName, ext: extension },
-      hash
+      hash,
     } = itm;
     const parsedFileName = parseCSFileName(fileName);
     itm.outputDir = optionsMediaRepoDir;
     itm.outputYear = parsedFileName.year || noDataDirName;
     const {
       outputFileName,
-      outputFileNameSquare
+      outputFileNameSquare,
     } = calculateOutputMainFileName(hash, extension);
     itm.outputFileNameSquare = outputFileNameSquare;
     itm.outputFileName = outputFileName;
@@ -120,7 +120,7 @@ async function performCopyMedia(itm) {
     outputDir,
     outputYear,
     outputFileName,
-    outputFileNameSquare
+    outputFileNameSquare,
   } = itm;
   const destination = path.resolve(
     outputHomeDir,
@@ -144,7 +144,7 @@ async function performCopyMedia(itm) {
 }
 
 function filterOutCopyFailed(fileList, copyResults) {
-  const copyResultsGoodTable = copyResults.map(itm =>
+  const copyResultsGoodTable = copyResults.map((itm) =>
     itm[1] === true && itm[3] === true ? true : false
   );
 
@@ -156,7 +156,7 @@ function filterOutCopyFailed(fileList, copyResults) {
       copyErrorMsg: copyResults[idx][0],
       copySuccess: copyResults[idx][1],
       cropErrorMsg: copyResults[idx][2],
-      cropSuccess: copyResults[idx][3]
+      cropSuccess: copyResults[idx][3],
     };
     if (copyResultsGoodTable[idx]) {
       return [[...accumulatorGood, currentWithExtraInfo], [...accumulatorBad]];
@@ -171,14 +171,14 @@ function filterOutCopyFailed(fileList, copyResults) {
 
 function listImportedDupPaths(fileListUniq, fileListDups) {
   if (Array.isArray(fileListDups) && !fileListDups.length == 0) {
-    const dupHashes = fileListDups.map(itm => itm.hash);
+    const dupHashes = fileListDups.map((itm) => itm.hash);
     const result = fileListUniq.reduce((acc, cur) => {
       const hash = cur.hash;
       const dupIdx = dupHashes.indexOf(hash);
       if (dupIdx >= 0) {
         return [
           ...acc,
-          [hash, cur.importedPath, fileListDups[dupIdx].importedPath]
+          [hash, cur.importedPath, fileListDups[dupIdx].importedPath],
         ];
       } else {
         return acc;
@@ -198,5 +198,5 @@ module.exports = {
   calculateOutputPaths,
   copyMediaToRamka,
   filterOutCopyFailed,
-  listImportedDupPaths
+  listImportedDupPaths,
 };

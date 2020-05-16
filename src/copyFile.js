@@ -13,5 +13,5 @@ async function copyFile(source, destination, options = { overwrite: false }) {
 }
 
 module.exports = {
-  copyFile
+  copyFile,
 };

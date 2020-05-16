@@ -6,9 +6,9 @@ const options = {
   flags: {
     limit: {
       type: "string",
-      alias: "l"
-    }
-  }
+      alias: "l",
+    },
+  },
 };
 
 const args = meow(

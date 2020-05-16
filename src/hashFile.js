@@ -12,5 +12,5 @@ async function hashFile(path) {
 }
 
 module.exports = {
-  hashFile
+  hashFile,
 };

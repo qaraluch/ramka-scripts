@@ -11,14 +11,14 @@ const { getFileTimeStamp } = require("./utils.js");
 
 const defaultUiLoggerOptions = {
   silent: false,
-  delimiter: ""
+  delimiter: "",
 };
 
 const defaultFileLoggerOptions = {
   disableFileLogs: false,
   level: "trace",
   logOutputDir: ".",
-  logFilePrefix: "logs" // rest of file name: -<time-stamp>.log
+  logFilePrefix: "logs", // rest of file name: -<time-stamp>.log
 };
 
 const configSignaleNoDecorations = {
@@ -29,16 +29,16 @@ const configSignaleNoDecorations = {
     space: {
       badge: null,
       color: null,
-      label: null
-    }
-  }
+      label: null,
+    },
+  },
 };
 
 function constructFinalOptions(inputOptions) {
   const {
     loggerOptions = {},
     signaleOptions = {},
-    bunyanOptions = {}
+    bunyanOptions = {},
   } = inputOptions;
   const endLoggerOptions = resolveOptions(
     defaultUiLoggerOptions,
@@ -49,7 +49,7 @@ function constructFinalOptions(inputOptions) {
     endLoggerOptions,
     {
       scope: endLoggerOptions.delimiter, //Signale API
-      disabled: endLoggerOptions.silent //Signale API
+      disabled: endLoggerOptions.silent, //Signale API
     },
     signaleOptions,
     {
@@ -58,7 +58,7 @@ function constructFinalOptions(inputOptions) {
         endLoggerOptions.disableFileLogs,
         endLoggerOptions.logOutputDir,
         endLoggerOptions.logFilePrefix
-      )
+      ),
     },
     bunyanOptions
   );
@@ -83,7 +83,7 @@ function initUiLogger(options = {}) {
     foundImportDuplicates: foundImportDuplicates(uiLogger),
     foundCopyFailed: foundCopyFailed(uiLogger),
     foundDBPutFaild: foundDBPutFaild(uiLogger),
-    importedFilesCount: importedFilesCount(uiLogger)
+    importedFilesCount: importedFilesCount(uiLogger),
   };
 }
 
@@ -98,9 +98,9 @@ async function initFileLogger(options = {}) {
   fileLogger.addStream({
     type: "raw",
     stream: ringbuffer,
-    level: level
+    level: level,
   });
-  const returnRingbuffer = reducerCb => {
+  const returnRingbuffer = (reducerCb) => {
     const rec = ringbuffer.records;
     if (typeof reducerCb === "function") {
       return rec.reduce(reducerCb, []);
@@ -111,7 +111,7 @@ async function initFileLogger(options = {}) {
   return {
     _returnLogs: returnRingbuffer,
     //pass reducer function to extract data; if not returns raw data
-    it: itFile(fileLogger)
+    it: itFile(fileLogger),
   };
 }
 
@@ -141,7 +141,7 @@ async function initLogger(globalLoggerOptions) {
   const finalOptions = constructFinalOptions(globalLoggerOptions);
   return {
     log: initUiLogger(finalOptions),
-    logFile: await initFileLogger(finalOptions)
+    logFile: await initFileLogger(finalOptions),
   };
 }
 
@@ -153,12 +153,12 @@ function initProgressBarBasic(options) {
     incomplete: " ",
     clear: true,
     total,
-    width
+    width,
   });
 }
 
 // Helpers:
-const colorWith = color => msg => `${chalk[color](msg)}`;
+const colorWith = (color) => (msg) => `${chalk[color](msg)}`;
 const addTab = () => " ".repeat(4);
 
 const displayBanner = (logger, bannerTxt) => {
@@ -174,13 +174,13 @@ const putSpace = (uiLogger, spaces = 1) => {
 };
 
 // MSGs: basic
-const itUi = uiLogger => msg => uiLogger.log(msg);
-const done = uiLogger => () => uiLogger.success(colorWith("green")("DONE!"));
-const error = uiLogger => msg => uiLogger.error(msg);
-const time = uiLogger => label => uiLogger.time(label);
-const timeEnd = uiLogger => label => uiLogger.timeEnd(label);
+const itUi = (uiLogger) => (msg) => uiLogger.log(msg);
+const done = (uiLogger) => () => uiLogger.success(colorWith("green")("DONE!"));
+const error = (uiLogger) => (msg) => uiLogger.error(msg);
+const time = (uiLogger) => (label) => uiLogger.time(label);
+const timeEnd = (uiLogger) => (label) => uiLogger.timeEnd(label);
 
-const welcome = uiLogger => () => {
+const welcome = (uiLogger) => () => {
   uiLogger.log("Welcome to:");
   displayBanner(
     uiLogger,
@@ -194,56 +194,56 @@ const welcome = uiLogger => () => {
 };
 
 // MSGs: basic operations
-const readFilesIn = uiLogger => filePath =>
+const readFilesIn = (uiLogger) => (filePath) =>
   uiLogger.log(`Reading files in dir: ${filePath}`);
 
-const readFilesCount = uiLogger => number =>
+const readFilesCount = (uiLogger) => (number) =>
   uiLogger.log(`${addTab()}... read: ${colorWith("yellow")(number)} files`);
 
 // MSGs: app specific
-const foundDbDuplicates = uiLogger => number =>
+const foundDbDuplicates = (uiLogger) => (number) =>
   uiLogger.warn(
     `Found duplicates in Database: ${colorWith("yellow")(
       number
     )} files (see log file)`
   );
 
-const foundExifErrors = uiLogger => number =>
+const foundExifErrors = (uiLogger) => (number) =>
   uiLogger.warn(
     `Found exif errors: ${colorWith("yellow")(number)} files (see log file)`
   );
 
-const foundNoDateFiles = uiLogger => number =>
+const foundNoDateFiles = (uiLogger) => (number) =>
   uiLogger.warn(
     `Found files with no date: ${colorWith("yellow")(
       number
     )} files (see log file)`
   );
 
-const foundImportDuplicates = uiLogger => number =>
+const foundImportDuplicates = (uiLogger) => (number) =>
   uiLogger.warn(
     `Found duplicate files in the import dir: ${colorWith("yellow")(
       number
     )} files (see log file)`
   );
 
-const foundCopyFailed = uiLogger => number =>
+const foundCopyFailed = (uiLogger) => (number) =>
   uiLogger.warn(
     `Found copy failed: ${colorWith("yellow")(number)} files (see log file)`
   );
 
-const foundDBPutFaild = uiLogger => number =>
+const foundDBPutFaild = (uiLogger) => (number) =>
   uiLogger.warn(
     `Found database update failures: ${colorWith("yellow")(
       number
     )} files (see log file)`
   );
 
-const importedFilesCount = uiLogger => number =>
+const importedFilesCount = (uiLogger) => (number) =>
   uiLogger.log(`Imported: ${number} files`);
 
 // MSGs: to log file
-const itFile = fileLogger => {
+const itFile = (fileLogger) => {
   return (msg, property, obj) => {
     fileLogger.info({ [property]: obj }, msg);
   };
@@ -251,5 +251,5 @@ const itFile = fileLogger => {
 
 module.exports = {
   initLogger,
-  initProgressBarBasic
+  initProgressBarBasic,
 };

@@ -14,8 +14,8 @@ const options = {
     delimiter: " ramka ",
     disableFileLogs: false,
     logOutputDir: "../manual/logs",
-    logFilePrefix: "logs-manual" // rest of file name: -<time-stamp>.log
-  }
+    logFilePrefix: "logs-manual", // rest of file name: -<time-stamp>.log
+  },
 };
 
 async function runDryRun() {
@@ -31,7 +31,7 @@ async function runDryRun() {
       fileListNoDates,
       fileListCopyFailed,
       confirmations,
-      confirmationsFailed
+      confirmationsFailed,
     } = result;
 
     console.log("inputCount ---->", inputCount);
