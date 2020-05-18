@@ -51,7 +51,7 @@ async function importMedia(options) {
       dbAllHashes = [];
     } else {
       dbAllHashes = await pullAllHashesDB(options.dbName);
-      log.it("Pulled hashes from data base to compare");
+      log.it("Pulled hashes from DataBase to compare");
     }
 
     const [fileList_dbUniq, fileList_dbDups] = findDuplicatesInDB(

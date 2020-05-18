@@ -28,7 +28,7 @@ const args = meow(
     Standalone npm scripts:
     WARN: execute from ramka-scripts home dir!
 
-    $ npm run list-cs-files                  - lists all files from CS import dir.
+    $ npm run list-cs-files                  - lists all files from CS import dir to the files
     $ npm run print-log                      - print info from log files of import command (need fzf)
     $ npm run print-log-db-duplicates
     $ npm run print-log-walked-files
@@ -44,4 +44,11 @@ const args = meow(
   options
 );
 
+// meow API example for reference:
+// {
+//   input: [ 'import' ],
+//   flags: { limit: '10' },
+//   unnormalizedFlags: { limit: '10', l: '10' },
+//   (...)
+// }
 runByCLI(args);

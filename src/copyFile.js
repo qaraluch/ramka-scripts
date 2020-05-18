@@ -1,4 +1,5 @@
 const cp = require("cp-file");
+// [sindresorhus/cp-file: Copy a file](https://github.com/sindresorhus/cp-file)
 
 async function copyFile(source, destination, options = { overwrite: false }) {
   try {

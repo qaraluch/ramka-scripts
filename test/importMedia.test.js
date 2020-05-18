@@ -230,6 +230,9 @@ it("should not import media file when duplikates already exist in the Database",
 });
 
 it("should deal with media file when can not parse year from its filename date", async () => {
+  // filename date is by default parsed for photo order-date setup
+  // some images do not have date in its filename
+  // so they goes to dir: data/images/beforeTime
   //Arrange
   const t_inputCount = 2;
   const t_outputCount = 2;
