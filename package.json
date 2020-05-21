@@ -15,13 +15,14 @@
     "debug": "node --inspect-brk index.js",
     "list-cs-files": "node ./scripts/listCsFiles.js",
     "create-hardlinks-cs": "node ./scripts/hardLinksCS.js",
-    "print-log": "./node_modules/.bin/bunyan $(fzf -q \".log$\")",
-    "print-log-db-duplicates": "jq '.\"db-duplicatesj\"[]? | .fileMetadata.name' < $(fzf -q \".log$\")",
-    "print-log-walked-files": "jq '.\"walked-files\"[]?' < $(fzf -q \".log$\")",
-    "print-log-no-date-files": "jq '.\"no-date-files\"[]?' < $(fzf -q \".log$\")",
-    "print-log-import-duplicates": "jq '.\"import-duplicates\"[]?' < $(fzf -q \".log$\")",
-    "print-log-copy-failed": "jq '.\"copy-failed\"[]? | .fileMetadata.name' < $(fzf -q \".log$\")",
-    "print-log-db-confirmation-failed": "jq '.\"db-confirmation-failed\"[]?' < $(fzf -q \".log$\")"
+    "print-log": "./node_modules/.bin/bunyan $(find ../logs/ -type f | fzf -q \".log$\")",
+    "print-log-no-date": "jq '.[\"no-date-files\"]?' < $(find ../logs/ -type f | fzf -q \".log$\")",
+    "print-log-no-date-paths": "jq '.[\"no-date-files\"]? | .[].importedPath' < $(find ../logs/ -type f | fzf -q \".log$\")",
+    "print-log-walked": "jq '.[\"walked-files\"]?' < $(find ../logs/ -type f | fzf -q \".log$\")",
+    "print-log-db-duplicates": "jq '.[\"db-duplicates\"]? | .[].fileMetadata.name' < $(find ../logs/ -type f | fzf -q \".log$\")",
+    "print-log-import-duplicates": "jq '.[\"import-duplicates\"]?' < $(find ../logs/ -type f | fzf -q \".log$\")",
+    "print-log-copy-failed": "jq '.[\"copy-failed\"]? | .fileMetadata.name' < $(find ../logs/ -type f | fzf -q \".log$\")",
+    "print-log-db-confirmation-failed": "jq '.[\"db-confirmation-failed\"]?' < $(find ../logs/ -type f | fzf -q \".log$\")"
   },
   "repository": {
     "type": "git",
