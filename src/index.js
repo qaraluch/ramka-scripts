@@ -6,9 +6,12 @@ const { resolveOptions } = require("./utils");
 const optionsDefault = {
   ramkaHomeDir: "/mnt/h/ramka",
   mediaRepoDir: "data/images",
-  mediaImportDir: "/mnt/g/gallery/aadisk-gallery/galeria-saved",
+  // target CS source:
+  // mediaImportDir: "/mnt/g/gallery/aadisk-gallery/galeria-saved",
+  // cs-hardlinks source:
+  mediaImportDir: "/mnt/g/cs-hardlinks",
   dbName: "../.DB-ramka",
-  dryRunCopyMedia: true,
+  dryRunCopyMedia: false,
   dryRunDBPut: false,
   limitImport: false,
   loggerOptions: {

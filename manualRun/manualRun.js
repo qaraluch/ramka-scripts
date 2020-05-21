@@ -4,7 +4,10 @@ const { importMedia } = require("../src/importMedia");
 const options = {
   ramkaHomeDir: "/mnt/h/ramka",
   mediaRepoDir: "manual/images",
-  mediaImportDir: "/mnt/g/gallery/aadisk-gallery/galeria-saved",
+  // target CS source:
+  // mediaImportDir: "/mnt/g/gallery/aadisk-gallery/galeria-saved",
+  // cs-hardlinks source:
+  mediaImportDir: "/mnt/g/cs-hardlinks",
   dbName: "../manual/.DB-ramka-manual",
   dryRunCopyMedia: false,
   dryRunDBPut: false,
