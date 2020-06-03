@@ -22,7 +22,8 @@
     "print-log-db-duplicates": "jq '.[\"db-duplicates\"]? | .[].fileMetadata.name' < $(find ../logs/ -type f | fzf -q \".log$\")",
     "print-log-import-duplicates": "jq '.[\"import-duplicates\"]?' < $(find ../logs/ -type f | fzf -q \".log$\")",
     "print-log-copy-failed": "jq '.[\"copy-failed\"]? | .fileMetadata.name' < $(find ../logs/ -type f | fzf -q \".log$\")",
-    "print-log-db-confirmation-failed": "jq '.[\"db-confirmation-failed\"]?' < $(find ../logs/ -type f | fzf -q \".log$\")"
+    "print-log-db-confirmation-failed": "jq '.[\"db-confirmation-failed\"]?' < $(find ../logs/ -type f | fzf -q \".log$\")",
+    "print-log-export-albums": "jq < $(find ../logs/ -type f | fzf -q \".log$\")"
   },
   "repository": {
     "type": "git",

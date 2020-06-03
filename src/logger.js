@@ -70,6 +70,7 @@ function initUiLogger(options = {}) {
   const uiLogger = new Signale(options);
   return {
     it: itUi(uiLogger),
+    itWarn: itWarn(uiLogger),
     done: done(uiLogger),
     error: error(uiLogger),
     welcome: welcome(uiLogger),
@@ -77,6 +78,7 @@ function initUiLogger(options = {}) {
     timeEnd: timeEnd(uiLogger),
     readFilesIn: readFilesIn(uiLogger),
     readFilesCount: readFilesCount(uiLogger),
+    readDBRecordsCount: readDBRecordsCount(uiLogger),
     foundDbDuplicates: foundDbDuplicates(uiLogger),
     foundExifErrors: foundExifErrors(uiLogger),
     foundNoDateFiles: foundNoDateFiles(uiLogger),
@@ -84,6 +86,7 @@ function initUiLogger(options = {}) {
     foundCopyFailed: foundCopyFailed(uiLogger),
     foundDBPutFaild: foundDBPutFaild(uiLogger),
     importedFilesCount: importedFilesCount(uiLogger),
+    createdAlbum: createdAlbum(uiLogger),
   };
 }
 
@@ -159,7 +162,7 @@ function initProgressBarBasic(options) {
 
 // Helpers:
 const colorWith = (color) => (msg) => `${chalk[color](msg)}`;
-const addTab = () => " ".repeat(4);
+const addTab = (multiplier = 1) => " ".repeat(4 * multiplier);
 
 const displayBanner = (logger, bannerTxt) => {
   const newLogger = logger.scope("");
@@ -175,12 +178,13 @@ const putSpace = (uiLogger, spaces = 1) => {
 
 // MSGs: basic
 const itUi = (uiLogger) => (msg) => uiLogger.log(msg);
+const itWarn = (uiLogger) => (msg) => uiLogger.warn(msg);
 const done = (uiLogger) => () => uiLogger.success(colorWith("green")("DONE!"));
 const error = (uiLogger) => (msg) => uiLogger.error(msg);
 const time = (uiLogger) => (label) => uiLogger.time(label);
 const timeEnd = (uiLogger) => (label) => uiLogger.timeEnd(label);
 
-const welcome = (uiLogger) => () => {
+const welcome = (uiLogger) => (scriptName) => {
   uiLogger.log("Welcome to:");
   displayBanner(
     uiLogger,
@@ -188,7 +192,7 @@ const welcome = (uiLogger) => () => {
   );
   displayBanner(
     uiLogger,
-    colorWith("gray")("                     SCRIPTS - importMedia")
+    colorWith("gray")(`                     SCRIPTS - ${scriptName}`)
   );
   putSpace(uiLogger, 1);
 };
@@ -199,6 +203,11 @@ const readFilesIn = (uiLogger) => (filePath) =>
 
 const readFilesCount = (uiLogger) => (number) =>
   uiLogger.log(`${addTab()}... read: ${colorWith("yellow")(number)} files`);
+
+const readDBRecordsCount = (uiLogger) => (number) =>
+  uiLogger.log(
+    `${addTab()}... read from DB: ${colorWith("yellow")(number)} records`
+  );
 
 // MSGs: app specific
 const foundDbDuplicates = (uiLogger) => (number) =>
@@ -241,6 +250,13 @@ const foundDBPutFaild = (uiLogger) => (number) =>
 
 const importedFilesCount = (uiLogger) => (number) =>
   uiLogger.log(`Imported: ${number} files`);
+
+const createdAlbum = (uiLogger) => (albumName, number) => {
+  uiLogger.log(`${addTab()}... album named: ${colorWith("yellow")(albumName)}`);
+  uiLogger.log(
+    `${addTab(2)}... with items count: ${colorWith("yellow")(number)}`
+  );
+};
 
 // MSGs: to log file
 const itFile = (fileLogger) => {

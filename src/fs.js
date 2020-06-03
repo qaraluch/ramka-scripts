@@ -5,8 +5,11 @@ const { throttleIt } = require("./throttleIt");
 const { copyFile } = require("./copyFile");
 const { cropSquareImage } = require("./cropSquareImage");
 const { parseCSFileName } = require("./utils");
+const { createHardLink } = require("./createHardLink.js");
+const rimraf = require("rimraf");
 const path = require("path");
 
+// for inportMedia fn
 async function walkInputDir(optionsMediaImportDir) {
   const fileInfo = await walkDir(optionsMediaImportDir);
   const fileInfoFileMetadata = creatFilesList(fileInfo);
@@ -190,6 +193,89 @@ function listImportedDupPaths(fileListUniq, fileListDups) {
   }
 }
 
+// for exportAlbums fn
+function removeDirSync(dirPath) {
+  rimraf.sync(dirPath);
+}
+
+function createHardlinksArgs(dirNameArray, reducerFn) {
+  return function reduceInfo(dbInfo, options) {
+    const results = dbInfo.reduce(reducerFn, {
+      args: [],
+      options,
+      dirName: dirNameArray,
+    });
+    return results.args;
+  };
+}
+
+// Reducers for createHardlinksArgs fn:
+function getAllPhotosReducer(accumulator, nextValue) {
+  const { date, version, comment } = nextValue.parsedFileName;
+  const { name: fileName } = nextValue.fileMetadata;
+  const source = path.resolve(
+    accumulator.options.ramkaHomeDir,
+    nextValue.source
+  );
+  const destination = path.resolve(
+    accumulator.options.albumsDir,
+    accumulator.dirName.join(""),
+    nextValue.parsedFileName.year
+      ? createAlbumMediaFileName(date, version, comment)
+      : // for beforeTime media files in DB
+        fileName
+  );
+  return {
+    ...accumulator,
+    args: [...accumulator.args, ...[[source, destination]]],
+  };
+}
+
+function getAllPhotosSquareReducer(accumulator, nextValue) {
+  const { date, version, comment } = nextValue.parsedFileName;
+  const { name: fileName } = nextValue.fileMetadata;
+  const source = path.resolve(
+    accumulator.options.ramkaHomeDir,
+    nextValue.sourceSquare
+  );
+  const destination = path.resolve(
+    accumulator.options.albumsDir,
+    accumulator.dirName.join(""),
+    nextValue.parsedFileName.year
+      ? createAlbumMediaFileName(date, version, comment)
+      : // for beforeTime media files in DB
+        fileName
+  );
+  return {
+    ...accumulator,
+    args: [...accumulator.args, ...[[source, destination]]],
+  };
+}
+
+function createAlbumMediaFileName(date, version, comment) {
+  const joinChar = "-";
+  // modify filename (no spaces)
+  // used in the albums dirs by script: exportAlbums
+  const results = `${date}-${version}-${comment}`.replace(/\s/g, joinChar);
+  return results;
+}
+
+async function createAlbums(albumsCreationsArgsObj) {
+  return Promise.all(
+    Object.entries(albumsCreationsArgsObj).map(async (itm) => {
+      const [key, args] = itm;
+      const createHardLinkThrottled = throttleIt(performCreateHardLink, 10);
+      await createHardLinkThrottled(args);
+      return [key, args.length];
+    })
+  );
+}
+
+async function performCreateHardLink(hardLinksArgsItm) {
+  const [source, destination] = hardLinksArgsItm;
+  await createHardLink(source, destination);
+}
+
 module.exports = {
   walkInputDir,
   limitImportMedia,
@@ -199,4 +285,9 @@ module.exports = {
   copyMediaToRamka,
   filterOutCopyFailed,
   listImportedDupPaths,
+  removeDirSync,
+  createHardlinksArgs,
+  getAllPhotosReducer,
+  getAllPhotosSquareReducer,
+  createAlbums,
 };

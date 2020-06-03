@@ -18,12 +18,15 @@ const args = meow(
 
     <command> - available commands:
       - import
+      - export-albums
 
     1. import - imports media files to the ramka's database.
 
        -l, --limit [number]        Limit read files number to import.
                                    The newest files is read in the first place.
                                    When the number is not passed it is 500 by default.
+
+    2. export-albums - exports media files from ramka's database to target dir on the disc.
 
     Standalone npm scripts:
     WARN: execute from ramka-scripts home dir!

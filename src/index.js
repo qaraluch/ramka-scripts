@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const { importMedia } = require("./importMedia");
+const { exportAlbums } = require("./exportAlbums");
 const { resolveOptions } = require("./utils");
 
 //TODO: add to config.js
@@ -11,6 +12,7 @@ const optionsDefault = {
   // cs-hardlinks source:
   mediaImportDir: "/mnt/g/cs-hardlinks",
   dbName: "../.DB-ramka",
+  albumsDir: "/mnt/h/ramka/albums",
   dryRunCopyMedia: false,
   dryRunDBPut: false,
   limitImport: false,
@@ -19,7 +21,6 @@ const optionsDefault = {
     delimiter: " ramka ",
     disableFileLogs: false,
     logOutputDir: "../logs",
-    logFilePrefix: "logs-importMedia", // rest of file name: -<time-stamp>.log
   },
 };
 
@@ -66,7 +67,11 @@ async function runApp(commandObj) {
   const { command, options } = commandObj;
   try {
     if (command === "import") {
+      options.loggerOptions.logFilePrefix = "logs-importMedia"; // rest of file name: -<time-stamp>.log
       await importMedia(options);
+    } else if (command === "export-albums") {
+      options.loggerOptions.logFilePrefix = "logs-exportAlbums";
+      await exportAlbums(options);
     } else {
       console.log("Command not recognized!");
     }

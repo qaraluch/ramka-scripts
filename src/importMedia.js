@@ -23,7 +23,7 @@ const {
 async function importMedia(options) {
   const { loggerOptions } = options;
   const { log, logFile } = await initLogger({ loggerOptions });
-  log.welcome();
+  log.welcome("importMedia");
   try {
     log.readFilesIn(options.mediaImportDir);
     const fileListAll = await walkInputDir(options.mediaImportDir);

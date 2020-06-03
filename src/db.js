@@ -51,15 +51,34 @@ function DBrecordsMapper(itm) {
   return DBrecord;
 }
 
-async function pullAllHashesDB(dbName) {
+async function pullDataDB(dbName, reducerFn) {
   let db = initDB(dbName);
+  const allDocs = await db.allDocs({ include_docs: true });
+  const allDocsReduced = allDocs.rows.reduce(reducerFn, []);
+  return allDocsReduced;
+}
+
+async function pullAllHashesDB(dbName) {
   try {
-    const allDocs = await db.allDocs({ include_docs: true });
-    const allHashes = allDocs.rows.map((itm) => itm.doc.hash);
+    const allHashes = await pullDataDB(dbName, (acc, next) => [
+      ...acc,
+      next.doc.hash,
+    ]);
     return allHashes;
   } catch (error) {
     throw new Error(
       `talkDB - pullAllHashesDB() - Sth. went wrong: ...\n ${error}`
+    );
+  }
+}
+
+async function pullAllInfoDB(dbName) {
+  try {
+    const allInfo = await pullDataDB(dbName, (acc, next) => [...acc, next.doc]);
+    return allInfo;
+  } catch (error) {
+    throw new Error(
+      `talkDB - pullAllInfoDB() - Sth. went wrong: ...\n ${error}`
     );
   }
 }
@@ -73,5 +92,6 @@ module.exports = {
   prepareDBRecord,
   putNewMediaToDB,
   pullAllHashesDB,
+  pullAllInfoDB,
   filterConfirmationFailed,
 };
