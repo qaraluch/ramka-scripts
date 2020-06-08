@@ -32,6 +32,7 @@ const args = meow(
     WARN: execute from ramka-scripts home dir!
 
     $ npm run list-cs-files                  - lists all files from CS import dir to the files
+    $ npm run create-hardlinks-cs            - create source-dir of CS using hardlinks (for development only)
     $ npm run print-log                      - print info from log files of import command (need fzf)
     $ npm run print-log-db-duplicates
     $ npm run print-log-walked-files
@@ -39,6 +40,7 @@ const args = meow(
     $ npm run print-log-import-duplicates
     $ npm run print-log-copy-failed
     $ npm run print-log-db-confirmation-failed
+    $ npm run print-log-export-albums
 
   Global options (overrides above)
     --help
