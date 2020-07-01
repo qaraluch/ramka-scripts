@@ -14,7 +14,7 @@ async function putNewMediaToDB(mediaList, dbName) {
     return result;
   } catch (error) {
     throw new Error(
-      `talkDB - putNewMediaToDB() - Sth. went wrong: ...\n ${error}`
+      `db.js - putNewMediaToDB() - Sth. went wrong: ...\n ${error}`
     );
   }
 }
@@ -67,7 +67,7 @@ async function pullAllHashesDB(dbName) {
     return allHashes;
   } catch (error) {
     throw new Error(
-      `talkDB - pullAllHashesDB() - Sth. went wrong: ...\n ${error}`
+      `db.js - pullAllHashesDB() - Sth. went wrong: ...\n ${error}`
     );
   }
 }
@@ -78,7 +78,7 @@ async function pullAllInfoDB(dbName) {
     return allInfo;
   } catch (error) {
     throw new Error(
-      `talkDB - pullAllInfoDB() - Sth. went wrong: ...\n ${error}`
+      `db.js - pullAllInfoDB() - Sth. went wrong: ...\n ${error}`
     );
   }
 }
